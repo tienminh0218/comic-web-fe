@@ -4,7 +4,7 @@ import { ComicType } from "@/models/comic";
 import { colorRating } from "@/utils/index";
 
 interface Props {
-    comic: ComicType | any;
+    comic: ComicType;
     index: number;
 }
 
@@ -13,7 +13,7 @@ export const Item = ({ comic, index }: Props) => {
         <div>
             <div
                 style={{
-                    backgroundImage: `url(/thub.jpg)`,
+                    backgroundImage: `url(${comic.images?.thumbnail.url || "/thub.jpg"})`,
                     backgroundPosition: "center 16%",
                     backgroundSize: "cover",
                 }}
@@ -26,14 +26,16 @@ export const Item = ({ comic, index }: Props) => {
                 ></div>
                 <div
                     className={`${
-                        index + 1 <= 3 ? "text-black" : "text-black dark:text-white"
+                        index < 3 ? "text-black" : "text-black dark:text-white"
                     } absolute px-4 pt-6 pb-3 inset-0 flex flex-col justify-between text-lg font-bold `}
                 >
                     <div className="flex justify-between">
-                        <p className="text-lg sm:text-2xl">{"Tokyo Revengers."}</p>
+                        <p className="text-lg sm:text-2xl">{comic.name.vnName}</p>
                         {index < 3 && <FaCrown className="ml-4 mt-2 text-yellow-300 w-8 z-1" />}
                     </div>
-                    <p className="text-xs sm:text-sm text-[#1A1A1A] opacity-60 font-semibold">Phổ biến nhất</p>
+                    {index < 3 && (
+                        <p className="text-xs sm:text-sm text-[#1A1A1A] opacity-60 font-semibold">Phổ biến nhất</p>
+                    )}
                 </div>
             </div>
         </div>

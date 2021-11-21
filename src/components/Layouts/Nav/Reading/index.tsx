@@ -51,21 +51,14 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                                 </svg>
                             </a>
                         </Link>
-                        <Link
-                            href={{
-                                pathname: "/titles/[titleId]",
-                                query: {
-                                    titleId,
-                                },
-                            }}
-                        >
+                        <Link href={`/titles/${titleId}`}>
                             <a>
                                 <p className="dark:text-[#cacaca] truncate">{comic.name.vnName}</p>
                             </a>
                         </Link>
                     </div>
                     <div className="h-full flex-1 flex-center transform xl:-translate-x-40">
-                        {nextAndPrev.prevId && (
+                        <div className={`${!nextAndPrev.prevId && "opacity-50 pointer-events-none"}`}>
                             <Link
                                 href={{
                                     pathname: "/titles/[titleId]/views/[chapter]",
@@ -79,8 +72,7 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                                     <AiFillCaretLeft className="text-5xl dark:fill-[#e4e6eb]  cursor-pointer" />
                                 </a>
                             </Link>
-                        )}
-
+                        </div>
                         <select
                             onChange={(e) => onChangeChap(e.target.value)}
                             value={idCurrentChapter}
@@ -94,7 +86,7 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                                 );
                             })}
                         </select>
-                        {nextAndPrev.nextId && (
+                        <div className={`${!nextAndPrev.nextId && "opacity-50 pointer-events-none"}`}>
                             <Link
                                 href={{
                                     pathname: "/titles/[titleId]/views/[chapter]",
@@ -105,10 +97,10 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                                 }}
                             >
                                 <a>
-                                    <AiFillCaretRight className="text-5xl dark:fill-[#e4e6eb] cursor-pointer" />
+                                    <AiFillCaretRight className={`text-5xl dark:fill-[#e4e6eb] cursor-pointer`} />
                                 </a>
                             </Link>
-                        )}
+                        </div>
                     </div>
                     <div className="flex-center gap-3 sm:gap-5">
                         <AiOutlineHeart className="w-6 h-6 sm:w-7 sm:h-7 color-icon-default cursor-pointer" />

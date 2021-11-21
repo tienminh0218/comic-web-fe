@@ -1,7 +1,8 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
-import Image from "next/image";
 import { ParsedUrlQuery } from "querystring";
 import { useRouter } from "next/router";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 import { apiClient } from "@/axios/index";
 import Footer from "@/components/Layouts/Footer";
@@ -10,9 +11,6 @@ import { Chapter } from "@/models/chapter";
 import { ComicType } from "@/models/comic";
 import { LoadingScreen } from "@/components/Common";
 
-/////
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 export interface ViewsPageProps {
     comic: ComicType;
     chapter: Chapter;

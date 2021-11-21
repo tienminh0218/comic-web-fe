@@ -90,7 +90,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
                         </li>
                     </ul>
                 </div>
-                <ListComic className="mt-8" comics={comics} totalCol={5} />
+                <ListComic className="mt-8" comics={comics} />
             </div>
         </div>
     );

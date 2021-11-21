@@ -147,6 +147,13 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
 
                     <div className="flex flex-col w-full relative min-w-min md:justify-start gap-2 md:flex-row md:items-center my-8">
                         <div className=" flex w-content flex-wrap  md:w-8/12 text-lg dark:text-dark-text-color">
+                            <div className="flex mr-2 mb-2 py-1 px-8 rounded-md font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] hover:bg-gray-200 hover:cursor-pointer dark:bg-[#1A1A1A]">
+                                <p className="text-sm">{"Đọc từ đầu 2"}</p>
+                            </div>
+                            <div className="flex mr-2 mb-2 py-1 px-8 rounded-md font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] hover:bg-gray-200 hover:cursor-pointer dark:bg-[#1A1A1A]">
+                                <p className="mx-auto text-sm">{"Đọc từ đầu"}</p>
+                            </div>
+
                             <div
                                 className="inline-block mr-2 mb-2 p-1 w-28 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] hover:bg-gray-200 hover:cursor-pointer dark:bg-[#1A1A1A] "
                                 onClick={() => setLike(<AiFillLike />)}

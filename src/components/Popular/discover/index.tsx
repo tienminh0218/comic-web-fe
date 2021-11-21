@@ -30,9 +30,9 @@ export const PopularDiscoverPage = ({ title, className, comics }: Props) => {
     return (
         <div className={className}>
             <Swiper slidesPerView="auto" spaceBetween={30} className="w-full popular">
-                {[1, 2, 3, 4, 5, 6].map((item, index) => (
+                {comics.map((comic, index) => (
                     <SwiperSlide key={index}>
-                        <Item comic={item} index={index} />
+                        <Item comic={comic} index={index} />
                     </SwiperSlide>
                 ))}
             </Swiper>
