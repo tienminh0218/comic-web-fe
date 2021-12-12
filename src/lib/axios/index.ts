@@ -16,7 +16,11 @@ export const apiClient = {
     },
 
     async discover<T>(): Promise<T> {
-        return await axios.get("/discover");
+        return await axios.get(`/discover`);
+    },
+
+    async discoverGetMoreComic<T>(id: string): Promise<T> {
+        return await axios.get(`/discover/getMore?nextPage=${id}`);
     },
 
     async filter<T>(params: FilterParams): Promise<T> {

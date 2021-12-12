@@ -7,7 +7,6 @@ interface ComicNameType {
 
 export interface InteractType {
     like: number;
-    unlike: number;
     views: number;
     bookMark: number;
 }

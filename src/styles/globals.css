@@ -122,3 +122,8 @@ a {
     -webkit-appearance: none; /* Safari and Chrome */
     appearance: none;
 }
+
+.infinite-scroll-component {
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+}

@@ -6,6 +6,11 @@ interface Props {
     comic: ComicType;
 }
 
+const convertDate = (dateComic: string): string => {
+    const date = new Date(dateComic);
+    return date.toUTCString();
+};
+
 const Card = ({ isLastUpdate, comic }: Props) => {
     return (
         <div className="cursor-pointer">
@@ -26,8 +31,9 @@ const Card = ({ isLastUpdate, comic }: Props) => {
             <div>
                 <h3 className="truncate font-bold mt-3 text-lg dark:text-white">{comic.name.vnName}</h3>
                 <div className="mt-2 text-sm text-[#6D6D6D] flex justify-between">
-                    <span>Chap 1</span>
-                    <span>3-10-2077</span>
+                    {/* <span>Chap 1</span> */}
+                    {/* <span>{comic.createdAt.toUTCString()}</span> */}
+                    <span>{convertDate(comic.createdAt)}</span>
                 </div>
             </div>
         </div>

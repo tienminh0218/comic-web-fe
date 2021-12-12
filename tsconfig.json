@@ -20,12 +20,10 @@
             "@/components/*": ["./src/components/*"],
             "@/commons/*": ["./src/commons/*"],
             "@/app/*": ["./src/app/*"],
-            "@/axios/*": ["./src/axios/*"],
             "@/styles/*": ["./src/styles/*"],
-            "@/constants/*": ["./src/constants/*"],
             "@/hooks/*": ["./src/hooks/*"],
             "@/hocs/*": ["./src/hocs/*"],
-            "@/firebase/*": ["./src/firebase/*"],
+            "@/lib/*": ["./src/lib/*"],
             "@/utils/*": ["./src/utils/*"],
             "@/validations/*": ["./src/validations/*"],
             "@/models/*": ["./src/models/*"]

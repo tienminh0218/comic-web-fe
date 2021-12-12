@@ -3,11 +3,12 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useSetRecoilState } from "recoil";
 
 import { LoadingScreen } from "@/components/Common";
-import { auth } from "@/firebase/config";
+import { auth } from "@/lib/firebase/config";
+import { firestore } from "@/lib/firebase/service";
 import { useAuth } from "@/hooks/useAuth";
-import { firestore } from "@/firebase/service";
-import { genresState } from "@/app/atoms";
+import { genresState, historyUserState } from "@/app/atoms";
 import { GenreType } from "@/models/genre";
+import { User } from "../models";
 
 interface Props {
     children: ReactNode;
@@ -16,6 +17,7 @@ interface Props {
 export const AuthStateChange = ({ children }: Props) => {
     const [isLoading, setIsLoading] = useState(true);
     const setGenres = useSetRecoilState(genresState);
+    const setHistoryUser = useSetRecoilState(historyUserState);
     const { setUser } = useAuth();
 
     useEffect(() => {
@@ -29,8 +31,14 @@ export const AuthStateChange = ({ children }: Props) => {
         })();
 
         /// auth state change
-        const unSubAuth = onAuthStateChanged(auth, (user) => {
+        const getUser = async (uid: string): Promise<User> => {
+            return firestore.getDocDb<User>("users", uid);
+        };
+
+        const unSubAuth = onAuthStateChanged(auth, async (user) => {
             if (user) {
+                const u = await getUser(user.uid);
+                setHistoryUser(u.histories);
                 setUser({ id: user.uid, email: user.displayName || user.email });
             }
             setIsLoading(false);

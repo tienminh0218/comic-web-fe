@@ -3,7 +3,6 @@ import { Timestamp } from "firebase/firestore";
 interface InfoUser {
     firstName: string | any;
     lastName: string | any;
-    age?: number;
     dob?: string;
     phoneNumber?: string;
     gender?: string;
@@ -19,39 +18,23 @@ interface HistoryViewed {
     idChapter: string;
 }
 
-interface BookMark {
+interface ComicWasInteracted {
     idComic: string;
     createdAt: Timestamp;
-    nameChapter: string;
-    idChapter: string;
+    isLike: boolean;
+    isBookmark: boolean;
 }
 
-interface Liked {
-    idComic: string;
-    createdAt: Timestamp;
-}
-
-interface UnLiked {
-    idComic: string;
-    createdAt: Timestamp;
-}
-
-interface HistoryGenres {
-    idComic: string;
-    createdAt: Timestamp;
+export interface HistoryUser {
+    comicsWasInteracted: ComicWasInteracted[];
+    viewed: HistoryViewed[];
 }
 
 export interface User {
     id?: string;
     providerId: string;
     info: InfoUser;
-    histories: {
-        viewed: HistoryViewed[];
-        bookMark: BookMark[];
-        liked: Liked[];
-        unLiked: UnLiked[];
-        genres: HistoryGenres[];
-    };
+    histories: HistoryUser;
     createdAt: Timestamp;
     updatedAt: Timestamp;
 }

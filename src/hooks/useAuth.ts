@@ -10,8 +10,8 @@ import {
 import { serverTimestamp } from "firebase/firestore";
 import { toast } from "react-toastify";
 
-import { auth } from "@/firebase/config";
-import { firestore } from "@/firebase/service";
+import { auth } from "@/lib/firebase/config";
+import { firestore } from "@/lib/firebase/service";
 import { useRecoilState } from "recoil";
 import { userState } from "@/app/atoms";
 import { SignInType, SignUpType, InsertNewUser } from "@/models/index";
@@ -23,14 +23,18 @@ export const useAuth = () => {
         await firestore.addDb(
             "users",
             {
-                info,
+                info: {
+                    dob: "",
+                    phoneNumber: "",
+                    gender: "Nam",
+                    email: "",
+                    photoURL: "",
+                    ...info,
+                },
                 providerId: providerId,
                 histories: {
                     viewed: [],
-                    bookMark: [],
-                    liked: [],
-                    unLiked: [],
-                    genres: [],
+                    comicsWasInteracted: [],
                 },
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
@@ -47,13 +51,14 @@ export const useAuth = () => {
                 info: {
                     firstName,
                     lastName,
+                    email,
                 },
                 providerId: user.providerId,
             };
             await insetNewUser(newUser, user.uid);
         } catch (error) {
             console.log({ error });
-            toast.error("Login Error");
+            toast.error("Đăng ký không thành công");
         }
     };
 
@@ -62,8 +67,7 @@ export const useAuth = () => {
             await signInWithEmailAndPassword(auth, email, password);
             toast("Đăng nhập thành công");
         } catch (error) {
-            toast.error("Login Error");
-            console.log({ error });
+            toast.error("Sai tài khoản hoặc mật khẩu");
         }
     };
 
@@ -71,12 +75,12 @@ export const useAuth = () => {
         try {
             const data = await signInWithPopup(auth, new GoogleAuthProvider());
             const { isNewUser, providerId, profile } = { ...getAdditionalUserInfo(data) };
-            // console.log({ data, info: getAdditionalUserInfo(data) });
             if (isNewUser) {
                 const newUser: InsertNewUser = {
                     info: {
-                        lastName: profile?.family_name || "null",
-                        firstName: profile?.given_name || "null",
+                        lastName: profile?.family_name || "",
+                        firstName: profile?.given_name || "",
+                        photoURL: (profile?.picture as string) || "",
                     },
                     providerId: providerId!,
                 };
@@ -91,7 +95,6 @@ export const useAuth = () => {
         try {
             const data = await signInWithPopup(auth, new FacebookAuthProvider());
             const { isNewUser, providerId, profile } = { ...getAdditionalUserInfo(data) };
-            // console.log({ data, info: getAdditionalUserInfo(data) });
             if (isNewUser) {
                 const newUser: InsertNewUser = {
                     info: {

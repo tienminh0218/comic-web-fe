@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-import { apiClient } from "@/axios/index";
+import { apiClient } from "@/lib/axios/index";
 import Footer from "@/components/Layouts/Footer";
 import { NavReading, NextAndPrevChap } from "@/components/Layouts/Nav";
 import { Chapter } from "@/models/chapter";
