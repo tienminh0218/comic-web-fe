@@ -5,9 +5,8 @@ import { RiMoonLine } from "react-icons/ri";
 import { HideScroll } from "react-hide-on-scroll";
 import Link from "next/link";
 
-import { useTheme } from "@/hooks/index";
-import { ComicType, ListChapter } from "@/models/comic";
-import { useState } from "react";
+import { useTheme } from "@/hook/index";
+import { ComicType } from "@/models/comic";
 
 export interface NextAndPrevChap {
     nextId?: string;

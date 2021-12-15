@@ -5,8 +5,8 @@ import { useSetRecoilState } from "recoil";
 import { LoadingScreen } from "@/components/Common";
 import { auth } from "@/lib/firebase/config";
 import { firestore } from "@/lib/firebase/service";
-import { useAuth } from "@/hooks/useAuth";
-import { genresState, historyUserState } from "@/app/atoms";
+import { useAuth } from "@/hook/useAuth";
+import { genresState, interactComicsState, comicsHaveReadState } from "@/app/atoms";
 import { GenreType } from "@/models/genre";
 import { User } from "../models";
 
@@ -17,7 +17,8 @@ interface Props {
 export const AuthStateChange = ({ children }: Props) => {
     const [isLoading, setIsLoading] = useState(true);
     const setGenres = useSetRecoilState(genresState);
-    const setHistoryUser = useSetRecoilState(historyUserState);
+    const setComicsHaveReadState = useSetRecoilState(comicsHaveReadState);
+    const setInteractState = useSetRecoilState(interactComicsState);
     const { setUser } = useAuth();
 
     useEffect(() => {
@@ -38,7 +39,8 @@ export const AuthStateChange = ({ children }: Props) => {
         const unSubAuth = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const u = await getUser(user.uid);
-                setHistoryUser(u.histories);
+                setInteractState(u.histories.comicsWasInteracted);
+                setComicsHaveReadState(u.histories.viewed);
                 setUser({ id: user.uid, email: user.displayName || user.email });
             }
             setIsLoading(false);

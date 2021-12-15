@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import AnimatedShowMore from "react-animated-show-more";
@@ -6,59 +5,58 @@ import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { AiOutlineLike, AiTwotoneLike } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { arrayUnion } from "firebase/firestore";
 
-import { NextPageWithLayout } from "@/models/common";
 import { MainLayout } from "@/components/Layouts";
 import { apiClient } from "@/lib/axios";
-import { ComicType } from "@/models/comic";
+import { firestore } from "@/lib/firebase/service";
+import { ComicType, NextPageWithLayout, ComicWasInteracted } from "@/models/index";
 import { LoadingScreen } from "@/components/Common";
 import Genres from "@/components/Genres";
-import { useAuth } from "@/hooks/useAuth";
-import { historyUserState } from "@/app/atoms";
+import { useAuth } from "@/hook/index";
+import { interactOfComic } from "@/app/selector";
+import { interactComicsState } from "@/app/atoms";
 
 interface DetailPageProps {
     comic: ComicType;
 }
 
 interface InteractOfUserWithComic {
-    isLike: boolean;
-    isBookmark: boolean;
+    isLike?: boolean;
+    isBookmark?: boolean;
 }
 
 const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
-    const [like, setLike] = useState(<AiOutlineLike />);
-    const [bookmark, setBookmark] = useState(<BsBookmark />);
-    const historyUser = useRecoilValue(historyUserState);
+    const interacState = useRecoilValue<ComicWasInteracted>(interactOfComic(comic.id!));
+    const [listInteract, setListInteract] = useRecoilState(interactComicsState);
+
     const router = useRouter();
     const { user } = useAuth();
-    const [interactUser, setInteractUser] = useState<InteractOfUserWithComic>(getInteractUser);
 
     if (router.isFallback) {
         return <LoadingScreen />;
     }
 
-    const handleInteracts = () => {
-        if (!user) toast.error("Bạn chưa đăng nhập", { autoClose: 2000 });
-    };
-
-    function getInteractUser(): InteractOfUserWithComic {
-        if (!historyUser)
-            return {
-                isLike: false,
-                isBookmark: false,
-            };
-        const result = historyUser?.comicsWasInteracted.find((item) => item.idComic === comic.id);
-        if (!result)
-            return {
-                isLike: false,
-                isBookmark: false,
-            };
-        return {
-            isLike: result.isLike,
-            isBookmark: result.isBookmark,
+    const handleInteracts = async (interaction: InteractOfUserWithComic) => {
+        if (!user) return toast.error("Bạn chưa đăng nhập", { autoClose: 2000 });
+        const index = listInteract.findIndex((item) => item.idComic === interacState.idComic);
+        let newList: ComicWasInteracted[] = [...listInteract];
+        const data = {
+            idComic: comic.id,
+            ...interacState,
+            ...interaction,
         };
-    }
+        if (index === -1) {
+            newList.push(data);
+        } else {
+            newList.splice(index, 1, data);
+        }
+        setListInteract(newList);
+        await firestore.updateDb("users", user.id, {
+            "histories.comicsWasInteracted": newList,
+        });
+    };
 
     return (
         <div className="min-w-[350px] px-5">
@@ -176,9 +174,20 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                     <div className=" flex w-content flex-wrap  md:w-8/12 text-lg dark:text-dark-text-color">
                         {comic.listChapter.length > 0 && (
                             <>
-                                <div className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
-                                    Đọc tiếp chap {"1"}
-                                </div>
+                                {/* {interactUser?.lastChapter ? (
+                                    <Link href={``}>
+                                        <a className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
+                                            Đọc tiếp chap {interactUser.lastChapter}
+                                        </a>
+                                    </Link>
+                                ) : (
+                                    <Link href={`/titles/${comic.id}/views/${comic.listChapter[0].idChapter}`}>
+                                        <a className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
+                                            Đọc mới nhất
+                                        </a>
+                                    </Link>
+                                )} */}
+
                                 <Link
                                     href={`/titles/${comic.id}/views/${
                                         comic.listChapter[comic.listChapter.length - 1].idChapter
@@ -192,20 +201,20 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                         )}
                         <div
                             className="inline-block mr-2 mb-2 p-1 w-28 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default "
-                            // onClick={() => handleInteracts({islike: true})}
+                            onClick={() => handleInteracts({ isLike: !interacState.isLike })}
                         >
                             <span className="flex items-center space-x-2 justify-center w-full">
-                                {interactUser.isLike ? <AiTwotoneLike /> : <AiOutlineLike />}
-                                <p className="">{comic.interacts?.like || 0}</p>
+                                {interacState.isLike ? <AiTwotoneLike /> : <AiOutlineLike />}
+                                <p>{comic.interacts?.like || 0}</p>
                             </span>
                         </div>
                         <div
                             className="inline-block mr-2 mb-2 p-1  w-28 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default"
-                            onClick={() => setBookmark(<BsBookmarkFill />)}
+                            onClick={() => handleInteracts({ isBookmark: !interacState.isBookmark })}
                         >
                             <span className="flex items-center space-x-2 justify-center w-full">
-                                {interactUser.isBookmark ? <BsBookmarkFill /> : <BsBookmark />}
-                                <p className="">{comic.interacts?.bookMark || 0}</p>
+                                {interacState.isBookmark ? <BsBookmarkFill /> : <BsBookmark />}
+                                <p>{comic.interacts?.bookMark || 0}</p>
                             </span>
                         </div>
                     </div>

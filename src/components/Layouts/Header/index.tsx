@@ -2,10 +2,9 @@ import { RiSearchLine, RiMoonLine } from "react-icons/ri";
 import { MdOutlineLightMode } from "react-icons/md";
 import Link from "next/link";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth, useTheme } from "@/hook/index";
 import DropDown from "@/components/DropDown";
 import { navigations } from "@/commons/index";
-import { useTheme } from "@/hooks/index";
 
 const Header = () => {
     const { user } = useAuth();

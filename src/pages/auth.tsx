@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsFacebook, BsGoogle } from "react-icons/bs";
 
+import { useAuth } from "@/hook/useAuth";
 import { SignIn, SignUp } from "@/components/Auth";
-import { useAuth } from "@/hooks/useAuth";
 import { LoadingScreen } from "@/components/Common";
 
 const LoginPage = () => {

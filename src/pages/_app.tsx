@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
 import { AppPropsWithLayout } from "@/models/index";
 import { Empty } from "@/components/Layouts";
-import { AuthStateChange } from "@/hocs/index";
+import { AuthStateChange } from "@/hoc/index";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     const Layout = Component.Layout ?? Empty;
