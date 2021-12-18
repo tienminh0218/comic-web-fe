@@ -6,7 +6,7 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { AiOutlineLike, AiTwotoneLike } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { arrayUnion } from "firebase/firestore";
+import { useState } from "react";
 
 import { MainLayout } from "@/components/Layouts";
 import { apiClient } from "@/lib/axios";
@@ -28,7 +28,8 @@ interface InteractOfUserWithComic {
 }
 
 const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
-    const interacState = useRecoilValue<ComicWasInteracted>(interactOfComic(comic.id!));
+    const [comicState, setComicState] = useState<ComicType>(comic);
+    const { interactState, index } = useRecoilValue(interactOfComic(comic.id!));
     const [listInteract, setListInteract] = useRecoilState(interactComicsState);
 
     const router = useRouter();
@@ -38,13 +39,47 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
         return <LoadingScreen />;
     }
 
+    const updateLikeAndBookmark = (interaction: InteractOfUserWithComic) => {
+        if (interaction?.isLike || interaction?.isLike === false) {
+            const updateNumLike: number = interaction.isLike
+                ? comicState.interacts!.like + 1
+                : comicState.interacts!.like - 1;
+
+            setComicState({
+                ...comicState,
+                interacts: {
+                    ...comicState.interacts!,
+                    like: updateNumLike,
+                },
+            });
+            firestore.updateDb("comics", comicState.id!, {
+                "interacts.like": updateNumLike,
+            });
+        }
+        if (interaction?.isBookmark || interaction?.isBookmark === false) {
+            const updateNumBookmark: number = interaction.isBookmark
+                ? comicState.interacts!.bookMark + 1
+                : comicState.interacts!.bookMark - 1;
+
+            setComicState({
+                ...comicState,
+                interacts: {
+                    ...comicState.interacts!,
+                    bookMark: updateNumBookmark,
+                },
+            });
+            firestore.updateDb("comics", comicState.id!, {
+                "interacts.bookMark": updateNumBookmark,
+            });
+        }
+    };
+
     const handleInteracts = async (interaction: InteractOfUserWithComic) => {
         if (!user) return toast.error("Bạn chưa đăng nhập", { autoClose: 2000 });
-        const index = listInteract.findIndex((item) => item.idComic === interacState.idComic);
         let newList: ComicWasInteracted[] = [...listInteract];
         const data = {
-            idComic: comic.id,
-            ...interacState,
+            idComic: comicState.id,
+            ...interactState,
             ...interaction,
         };
         if (index === -1) {
@@ -53,6 +88,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
             newList.splice(index, 1, data);
         }
         setListInteract(newList);
+        updateLikeAndBookmark(interaction);
         await firestore.updateDb("users", user.id, {
             "histories.comicsWasInteracted": newList,
         });
@@ -62,15 +98,15 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
         <div className="min-w-[350px] px-5">
             <div className="flex flex-wrap-reverse w-full md:flex-nowrap md:justify-between pt-12 md:pt-24 md:pl-16 md:pb-8 2xl:mb-0 2xl:pl-80">
                 <div
-                    key={comic.id}
+                    key={comicState.id}
                     className=" w-full h-max relative z-1 -mt-12 md:flex md:flex-col md:items-start md:mt-0 "
                 >
-                    <p className="mb-1 text-2xl text-[#989898] font-semibold">{comic.name.orgName}</p>
+                    <p className="mb-1 text-2xl text-[#989898] font-semibold">{comicState.name.orgName}</p>
                     <p className="text-5xl font-bold pb-4 dark:text-dark-text-color transition-all ">
-                        {comic.name.vnName}
+                        {comicState.name.vnName}
                     </p>
                     <div className="flex flex-wrap text-xs pb-5">
-                        <Genres genres={comic.genres} />
+                        <Genres genres={comicState.genres} />
                     </div>
                     <div className="h-max">
                         <AnimatedShowMore
@@ -90,7 +126,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                             speed={200}
                         >
                             <p className="text-lg leading-8 dark:text-dark-text-color transition-all ">
-                                {comic.describe}
+                                {comicState.describe}
                             </p>
                         </AnimatedShowMore>
                     </div>
@@ -102,19 +138,19 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                                     className="text-base underline-custom hover:underline hover:cursor-pointer dark:text-[#fff]"
                                     href="https://catmanga.org/discover?authors=Iori%20Asaga"
                                 >
-                                    {comic.author}
+                                    {comicState.author}
                                 </a>
                             </span>
                         </div>
                         <div className="flex flex-col gap-2 md:flex-row">
                             <p className="font-bold text-base ">Lượt xem:</p>
                             <p className="font-semibold text-base dark:text-[#fff]">
-                                {comic.interacts?.views || 0}
+                                {comicState.interacts?.views || 0}
                             </p>
                         </div>
                         <div className="flex flex-col gap-2 md:flex-row">
                             <p className="font-bold text-base ">Trạng thái:</p>
-                            <p className="font-semibold text-base dark:text-[#fff]">{comic.status}</p>
+                            <p className="font-semibold text-base dark:text-[#fff]">{comicState.status}</p>
                         </div>
                     </div>
                 </div>
@@ -122,8 +158,8 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                     <div className="absolute inset-0 bg-gradient-to-b from-[#f4f4f400] via-[#f4f4f400] to-dark-text-color dark:to-[#000000] md:hidden"></div>
                     <img
                         className="rounded-lg h-96 w-full object-cover object-top md:flex md:h-max md:w-8/12"
-                        src={comic.images?.thumbnail.url}
-                        alt={comic.name.vnName}
+                        src={comicState.images?.thumbnail.url}
+                        alt={comicState.name.vnName}
                     />
                 </div>
             </div>
@@ -137,14 +173,14 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                         </div>
                     </div>
                     <>
-                        {comic && comic.listChapter.length !== 0 ? (
-                            comic.listChapter.map((chapter) => (
+                        {comicState && comicState.listChapter.length !== 0 ? (
+                            comicState.listChapter.map((chapter) => (
                                 <Link
                                     key={chapter.idChapter}
                                     href={{
                                         pathname: "/titles/[titleId]/views/[chapter]",
                                         query: {
-                                            titleId: comic.id,
+                                            titleId: comicState.id,
                                             chapter: chapter.idChapter,
                                         },
                                     }}
@@ -172,7 +208,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
 
                 <div className="flex flex-col w-full relative min-w-min md:justify-start gap-2 md:flex-row md:items-center my-8">
                     <div className=" flex w-content flex-wrap  md:w-8/12 text-lg dark:text-dark-text-color">
-                        {comic.listChapter.length > 0 && (
+                        {comicState.listChapter.length > 0 && (
                             <>
                                 {/* {interactUser?.lastChapter ? (
                                     <Link href={``}>
@@ -181,7 +217,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                                         </a>
                                     </Link>
                                 ) : (
-                                    <Link href={`/titles/${comic.id}/views/${comic.listChapter[0].idChapter}`}>
+                                    <Link href={`/titles/${comicState.id}/views/${comicState.listChapter[0].idChapter}`}>
                                         <a className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
                                             Đọc mới nhất
                                         </a>
@@ -189,8 +225,8 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                                 )} */}
 
                                 <Link
-                                    href={`/titles/${comic.id}/views/${
-                                        comic.listChapter[comic.listChapter.length - 1].idChapter
+                                    href={`/titles/${comicState.id}/views/${
+                                        comicState.listChapter[comicState.listChapter.length - 1].idChapter
                                     }`}
                                 >
                                     <a className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
@@ -201,20 +237,20 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                         )}
                         <div
                             className="inline-block mr-2 mb-2 p-1 w-28 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default "
-                            onClick={() => handleInteracts({ isLike: !interacState.isLike })}
+                            onClick={() => handleInteracts({ isLike: !interactState.isLike })}
                         >
                             <span className="flex items-center space-x-2 justify-center w-full">
-                                {interacState.isLike ? <AiTwotoneLike /> : <AiOutlineLike />}
-                                <p>{comic.interacts?.like || 0}</p>
+                                {interactState.isLike ? <AiTwotoneLike /> : <AiOutlineLike />}
+                                <p>{comicState.interacts?.like || 0}</p>
                             </span>
                         </div>
                         <div
                             className="inline-block mr-2 mb-2 p-1  w-28 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default"
-                            onClick={() => handleInteracts({ isBookmark: !interacState.isBookmark })}
+                            onClick={() => handleInteracts({ isBookmark: !interactState.isBookmark })}
                         >
                             <span className="flex items-center space-x-2 justify-center w-full">
-                                {interacState.isBookmark ? <BsBookmarkFill /> : <BsBookmark />}
-                                <p>{comic.interacts?.bookMark || 0}</p>
+                                {interactState.isBookmark ? <BsBookmarkFill /> : <BsBookmark />}
+                                <p>{comicState.interacts?.bookMark || 0}</p>
                             </span>
                         </div>
                     </div>

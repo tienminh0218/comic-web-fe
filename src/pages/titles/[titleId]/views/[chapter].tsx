@@ -3,6 +3,8 @@ import { ParsedUrlQuery } from "querystring";
 import { useRouter } from "next/router";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useEffect } from "react";
 
 import { apiClient } from "@/lib/axios/index";
 import Footer from "@/components/Layouts/Footer";
@@ -10,6 +12,10 @@ import { NavReading, NextAndPrevChap } from "@/components/Layouts/Nav";
 import { Chapter } from "@/models/chapter";
 import { ComicType } from "@/models/comic";
 import { LoadingScreen } from "@/components/Common";
+import { historyOfComic } from "@/app/selector";
+import { comicsHaveReadState } from "@/app/atoms";
+import { firestore } from "@/lib/firebase/service";
+import { useAuth } from "@/hook/useAuth";
 
 export interface ViewsPageProps {
     comic: ComicType;
@@ -23,7 +29,10 @@ interface ParamViewsPageProps extends ParsedUrlQuery {
 
 export default function ViewsPage({ comic, chapter, nextAndPrev }: ViewsPageProps) {
     const router = useRouter();
+    const historyComic = useRecoilValue(historyOfComic(comic.id));
+    const [listHistory, setListHistory] = useRecoilState(comicsHaveReadState);
     const { titleId } = router.query as ParamViewsPageProps;
+    const { user } = useAuth();
 
     const handleChangeChap = (url: string) => {
         router.push(`/titles/${titleId}/views/${url}`);
@@ -37,6 +46,37 @@ export default function ViewsPage({ comic, chapter, nextAndPrev }: ViewsPageProp
         router.push("/");
         return <LoadingScreen />;
     }
+
+    useEffect(() => {
+        const addToHisory = () => {
+            let newList = [...listHistory];
+            if (historyComic) {
+                newList.splice(historyComic.index, 1, {
+                    ...historyComic.comic,
+                    idChapter: chapter.id!,
+                    nameChapter: chapter.nameChapter,
+                    updatedAt: new Date().toUTCString(),
+                });
+            } else {
+                newList.push({
+                    idComic: comic.id,
+                    nameComic: comic.name.vnName,
+                    imageURL: comic.images?.thumbnail.url!,
+                    idChapter: chapter.id!,
+                    nameChapter: chapter.nameChapter,
+                    createdAt: new Date().toUTCString(),
+                    updatedAt: new Date().toUTCString(),
+                });
+            }
+            setListHistory(newList);
+            if (user)
+                firestore.updateDb("users", user.id, {
+                    "histories.viewed": newList,
+                });
+        };
+        const timeout = setTimeout(addToHisory, 3000);
+        return () => clearTimeout(timeout);
+    }, [chapter.id]);
 
     return (
         <>

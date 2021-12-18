@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 
 import { LoadingScreen } from "@/components/Common";
 import { auth } from "@/lib/firebase/config";
@@ -17,7 +17,7 @@ interface Props {
 export const AuthStateChange = ({ children }: Props) => {
     const [isLoading, setIsLoading] = useState(true);
     const setGenres = useSetRecoilState(genresState);
-    const setComicsHaveReadState = useSetRecoilState(comicsHaveReadState);
+    const [test, setComicsHaveReadState] = useRecoilState(comicsHaveReadState);
     const setInteractState = useSetRecoilState(interactComicsState);
     const { setUser } = useAuth();
 
@@ -50,6 +50,8 @@ export const AuthStateChange = ({ children }: Props) => {
             unSubAuth();
         };
     }, []);
+
+    console.log(test);
 
     return <>{isLoading ? <LoadingScreen /> : <>{children}</>}</>;
 };
