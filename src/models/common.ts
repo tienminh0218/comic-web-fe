@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 
+import { ComicWasInteracted, HistoryViewed } from "./user";
 export interface LayoutProps {
     children: ReactNode;
     title?: string;
@@ -41,6 +42,17 @@ export interface NavigationType {
 export interface UserStateType {
     email: string | null | undefined;
     id: string;
+}
+
+// selectors
+export interface InteractOfComicType {
+    interactState: ComicWasInteracted;
+    index: number;
+}
+
+export interface HistoryOfComicState {
+    comic: HistoryViewed;
+    index: number;
 }
 
 // axios

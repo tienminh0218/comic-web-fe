@@ -1,9 +1,8 @@
-import { Timestamp } from "firebase/firestore";
+import { Timestamp, FieldValue } from "firebase/firestore";
 
 interface InfoUser {
     firstName: string | any;
     lastName: string | any;
-    age?: number;
     dob?: string;
     phoneNumber?: string;
     gender?: string;
@@ -11,47 +10,32 @@ interface InfoUser {
     photoURL?: string;
 }
 
-interface HistoryViewed {
-    idComic: string;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+export interface HistoryViewed {
+    idComic?: string;
+    createdAt?: Timestamp | Date | any;
+    updatedAt?: Timestamp | Date | any;
     nameChapter: string;
     idChapter: string;
+    imageURL: string;
+    nameComic: string;
 }
 
-interface BookMark {
-    idComic: string;
-    createdAt: Timestamp;
-    nameChapter: string;
-    idChapter: string;
+export interface ComicWasInteracted {
+    idComic?: string;
+    isLike: boolean;
+    isBookmark: boolean;
 }
 
-interface Liked {
-    idComic: string;
-    createdAt: Timestamp;
-}
-
-interface UnLiked {
-    idComic: string;
-    createdAt: Timestamp;
-}
-
-interface HistoryGenres {
-    idComic: string;
-    createdAt: Timestamp;
+export interface HistoryUser {
+    comicsWasInteracted: ComicWasInteracted[];
+    viewed: HistoryViewed[];
 }
 
 export interface User {
     id?: string;
     providerId: string;
     info: InfoUser;
-    histories: {
-        viewed: HistoryViewed[];
-        bookMark: BookMark[];
-        liked: Liked[];
-        unLiked: UnLiked[];
-        genres: HistoryGenres[];
-    };
+    histories: HistoryUser;
     createdAt: Timestamp;
     updatedAt: Timestamp;
 }

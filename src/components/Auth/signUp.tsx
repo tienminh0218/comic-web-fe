@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { InputField } from "@/components/FormFields";
 import { SignUpType } from "@/models/index";
+import { schemaRegister } from "@/validations/index";
 
 interface InitValueSignUp extends SignUpType {
-    rePassword: string;
+    confirmPassword: string;
 }
 
 interface Props {
@@ -15,7 +17,7 @@ interface Props {
 const initialValue: InitValueSignUp = {
     email: "",
     password: "",
-    rePassword: "",
+    confirmPassword: "",
     firstName: "",
     lastName: "",
 };
@@ -27,18 +29,19 @@ export const SignUp = ({ onSignUp }: Props) => {
         formState: { isSubmitting },
     } = useForm({
         defaultValues: initialValue,
+        resolver: yupResolver(schemaRegister),
     });
 
     const onSubmit = async (payload: InitValueSignUp) => {
-        if (payload.rePassword === payload.password) await onSignUp(payload);
+        await onSignUp(payload);
     };
 
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <InputField label="Tên tài khoản" name="email" control={control} />
+                <InputField label="Email" name="email" control={control} />
                 <InputField label="Mật khẩu" name="password" control={control} type="password" />
-                <InputField label="Nhập lại mật khẩu" name="rePassword" control={control} type="password" />
+                <InputField label="Nhập lại mật khẩu" name="confirmPassword" control={control} type="password" />
                 <div className="flex gap-2">
                     <InputField label="Họ" name="lastName" control={control} />
                     <InputField label="Tên" name="firstName" control={control} />

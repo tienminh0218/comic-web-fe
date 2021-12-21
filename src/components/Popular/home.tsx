@@ -2,7 +2,20 @@ import { FaCrown } from "react-icons/fa";
 import Link from "next/link";
 
 import { ComicType } from "@/models/comic";
-import { colorRating } from "@/utils/index";
+
+export const colorRating = (index: number): string => {
+    switch (index + 1) {
+        case 1:
+            return "bg-gradient-to-r from-[#ffd749] to-[#FF7A00]";
+        case 2:
+            return "bg-gradient-to-r from-[#8fffe4] to-[#1D5CFF]";
+        case 3:
+            return "bg-gradient-to-r from-[#a1ff89] to-[#00BE7A]";
+
+        default:
+            return "bg-[#F4F4F4] dark:bg-[#1A1A1A]";
+    }
+};
 
 interface Props {
     comics: ComicType[];
@@ -16,7 +29,7 @@ export const PopularHomePage = ({ comics, title, className }: Props) => {
             {title && <h3 className="text-4xl font-bold dark:text-white mb-8">{title}</h3>}
             <div className="grid lg:grid-cols-2 lg:grid-rows-3 lg:grid-flow-col gap-6">
                 {comics.map((comic, index) => (
-                    <Link key={comic.id} href={`/titles/${comic.id}`}>
+                    <Link key={comic.id} href={`/title/${comic.id}`}>
                         <a>
                             <div
                                 style={{
@@ -28,7 +41,7 @@ export const PopularHomePage = ({ comics, title, className }: Props) => {
                             >
                                 <div
                                     className={`${colorRating(
-                                        index + 1
+                                        index
                                     )} group-hover:opacity-75 absolute inset-0 opacity-75 xl:opacity-90 transition-opacity duration-500`}
                                 ></div>
                                 <div

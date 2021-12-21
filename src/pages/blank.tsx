@@ -8,9 +8,7 @@ interface Props {}
 const Blank: NextPageWithLayout<Props> = (props) => {
     return (
         <div className="px-6">
-            <div className="my-[1000px] md:pl-16 2xl:pl-80 w-full">
-                <PopularDiscoverPage />
-            </div>
+            <div className="my-[1000px] md:pl-16 2xl:pl-80 w-full">{/* <PopularDiscoverPage /> */}</div>
         </div>
     );
 };

@@ -1,13 +1,14 @@
 import { ReactNode, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 
 import { LoadingScreen } from "@/components/Common";
-import { auth } from "@/firebase/config";
-import { useAuth } from "@/hooks/useAuth";
-import { firestore } from "@/firebase/service";
-import { genresState } from "@/app/atoms";
+import { auth } from "@/lib/firebase/config";
+import { firestore } from "@/lib/firebase/service";
+import { useAuth } from "@/hook/useAuth";
+import { genresState, interactComicsState, comicsHaveReadState } from "@/app/atoms";
 import { GenreType } from "@/models/genre";
+import { User } from "../models";
 
 interface Props {
     children: ReactNode;
@@ -16,6 +17,8 @@ interface Props {
 export const AuthStateChange = ({ children }: Props) => {
     const [isLoading, setIsLoading] = useState(true);
     const setGenres = useSetRecoilState(genresState);
+    const [test, setComicsHaveReadState] = useRecoilState(comicsHaveReadState);
+    const setInteractState = useSetRecoilState(interactComicsState);
     const { setUser } = useAuth();
 
     useEffect(() => {
@@ -29,8 +32,15 @@ export const AuthStateChange = ({ children }: Props) => {
         })();
 
         /// auth state change
-        const unSubAuth = onAuthStateChanged(auth, (user) => {
+        const getUser = async (uid: string): Promise<User> => {
+            return firestore.getDocDb<User>("users", uid);
+        };
+
+        const unSubAuth = onAuthStateChanged(auth, async (user) => {
             if (user) {
+                const u = await getUser(user.uid);
+                setInteractState(u.histories.comicsWasInteracted);
+                setComicsHaveReadState(u.histories.viewed);
                 setUser({ id: user.uid, email: user.displayName || user.email });
             }
             setIsLoading(false);

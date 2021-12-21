@@ -16,7 +16,11 @@ export const apiClient = {
     },
 
     async discover<T>(): Promise<T> {
-        return await axios.get("/discover");
+        return await axios.get(`/discover`);
+    },
+
+    async discoverGetMoreComic<T>(id: string): Promise<T> {
+        return await axios.get(`/discover/getMore?nextPage=${id}`);
     },
 
     async filter<T>(params: FilterParams): Promise<T> {
@@ -26,5 +30,9 @@ export const apiClient = {
 
     async getChapterById<T>(idTitle: string, idChap: string): Promise<T> {
         return await axios.get(`/titles/${idTitle}/views/${idChap}`);
+    },
+
+    async getListBookmark(userId: string): Promise<ComicType[]> {
+        return await axios.get(`/users/${userId}`);
     },
 };

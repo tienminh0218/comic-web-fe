@@ -8,8 +8,8 @@ import "swiper/css/autoplay";
 import { SlideItem } from "./slideItem";
 import { ComicType } from "@/models/comic";
 
-const colorCss = (index: number) => {
-    switch (index) {
+const textColorRating = (index: number) => {
+    switch (index + 1) {
         case 1:
             return "text-[#4DAAAF]";
         case 2:
@@ -42,7 +42,7 @@ const Slider = ({ comics }: Props) => {
             {comics &&
                 comics.map((comic, index) => (
                     <SwiperSlide key={comic.id}>
-                        <SlideItem color={colorCss(index + 1)} comic={comic} />
+                        <SlideItem color={textColorRating(index)} comic={comic} />
                     </SwiperSlide>
                 ))}
         </Swiper>

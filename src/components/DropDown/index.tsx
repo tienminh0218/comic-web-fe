@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { MdLogout } from "react-icons/md";
 import { toast } from "react-toastify";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hook/index";
 import { navigations } from "@/commons/index";
 import { Icon } from "@/components/Common";
 

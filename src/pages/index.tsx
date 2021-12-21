@@ -2,10 +2,10 @@ import { GetStaticProps } from "next";
 
 import { MainLayout } from "@/components/Layouts";
 import Slider from "@/components/Slider";
-import ListComic from "@/components/ListComic";
+import { ListComic } from "@/components/ListComic";
 import { PopularHomePage } from "@/components/Popular";
 import { NextPageWithLayout, ComicType } from "@/models/index";
-import { apiClient } from "@/axios/index";
+import { apiClient } from "@/lib/axios";
 
 interface HomePageProps {
     recommend: ComicType[];

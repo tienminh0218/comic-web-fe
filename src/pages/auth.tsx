@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsFacebook, BsGoogle } from "react-icons/bs";
 
+import { useAuth } from "@/hook/useAuth";
 import { SignIn, SignUp } from "@/components/Auth";
-import { useAuth } from "@/hooks/useAuth";
 import { LoadingScreen } from "@/components/Common";
 
 const LoginPage = () => {
@@ -73,20 +73,20 @@ const LoginPage = () => {
                 <div className="text-center mt-6">
                     {isSignIn ? (
                         <span>
-                            Chưa có tài khoản,
+                            Chưa có tài khoản.{" "}
                             <span
                                 onClick={() => setIsSignIn(false)}
-                                className="cursor-pointer text-black underline"
+                                className="cursor-pointer text-black underline font-medium"
                             >
                                 Bấm vô ngay!!
                             </span>
                         </span>
                     ) : (
                         <span>
-                            Có rồi mà,{" "}
+                            Có rồi mà.{" "}
                             <span
                                 onClick={() => setIsSignIn(true)}
-                                className="cursor-pointer text-black underline"
+                                className="cursor-pointer text-black underline font-medium"
                             >
                                 Quay lại??
                             </span>

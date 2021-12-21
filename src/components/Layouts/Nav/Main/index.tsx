@@ -5,7 +5,7 @@ import { RiUserUnfollowLine, RiMoonLine, RiSearchLine } from "react-icons/ri";
 import { navigations } from "@/commons/index";
 import { Icon } from "@/components/Common";
 import { UserMenu } from "./menu";
-import { useAuth, useTheme } from "@/hooks/index";
+import { useAuth, useTheme } from "@/hook/index";
 
 export const NavBottom = () => {
     const { user, signOut } = useAuth();
