@@ -21,7 +21,7 @@ export const Item = ({ comic, index }: Props) => {
             >
                 <div
                     className={`${colorRating(
-                        index + 1
+                        index
                     )} group-hover:opacity-75 absolute inset-0 opacity-75 xl:opacity-90 transition-opacity duration-500`}
                 ></div>
                 <div

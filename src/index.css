@@ -63,6 +63,14 @@ a {
     @apply fill-white dark:fill-black;
 }
 
+.sub-color {
+    @apply text-blue-500 dark:text-pink-500;
+}
+
+.sub-color-hover {
+    @apply hover:text-blue-500 dark:hover:text-pink-500 transition-all duration-200;
+}
+
 /* custom class */
 .image-login {
     object-position: 0 20%;

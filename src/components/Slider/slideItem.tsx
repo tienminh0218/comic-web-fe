@@ -13,7 +13,7 @@ export const SlideItem = ({ comic, color }: Props) => {
         <div className="w-full h-full relative">
             <div className="h-max w-full md:max-w-2xl my-auto py-28 px-6 md:ml-16 2xl:ml-80">
                 <p className="text-base xs:text-2xl font-semibold text-[#989898]">Recommended</p>
-                <Link href={`/titles/${comic.id}`}>
+                <Link href={`/title/${comic.id}`}>
                     <a>
                         <h3 className={`${color} text-3xl xs:text-5xl font-bold cursor-pointer`}>
                             {comic.name.vnName}
@@ -24,7 +24,7 @@ export const SlideItem = ({ comic, color }: Props) => {
                     <Genres genres={comic.genres} />
                 </div>
                 <p className="desc mt-6 dark:text-white font-normal text-lg">{comic.describe}</p>
-                <Link href={`/titles/${comic.id}`}>
+                <Link href={`/title/${comic.id}`}>
                     <a>
                         <button className="hover:opacity-80 dark:text-black dark:bg-white mt-8 px-6 py-2 font-semibold text-white bg-black rounded-full text-base transition-all duration-500 cursor-pointer">
                             Check it out

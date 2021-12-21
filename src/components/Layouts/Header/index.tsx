@@ -30,13 +30,9 @@ const Header = () => {
                     (item) =>
                         item.isOnHeader && (
                             <Link href={item.path} key={`${item.path}_navTop`}>
-                                <div
-                                    className={`${
-                                        item.path === "/top" && "text-blue-500 dark:text-pink-500"
-                                    } cursor-pointer`}
-                                >
+                                <a className={`${item.path === "/top" && "sub-color"} cursor-pointer`}>
                                     {item.name}
-                                </div>
+                                </a>
                             </Link>
                         )
                 )}

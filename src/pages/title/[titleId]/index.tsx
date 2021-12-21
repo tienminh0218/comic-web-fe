@@ -12,10 +12,10 @@ import { MainLayout } from "@/components/Layouts";
 import { apiClient } from "@/lib/axios";
 import { firestore } from "@/lib/firebase/service";
 import { ComicType, NextPageWithLayout, ComicWasInteracted } from "@/models/index";
-import { LoadingScreen } from "@/components/Common";
+import { LoadingScreen, SoonFeature } from "@/components/Common";
 import Genres from "@/components/Genres";
 import { useAuth } from "@/hook/index";
-import { interactOfComic } from "@/app/selector";
+import { interactOfComic, historyOfComic } from "@/app/selector";
 import { interactComicsState } from "@/app/atoms";
 
 interface DetailPageProps {
@@ -30,8 +30,8 @@ interface InteractOfUserWithComic {
 const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
     const [comicState, setComicState] = useState<ComicType>(comic);
     const { interactState, index } = useRecoilValue(interactOfComic(comic.id!));
+    const historyComic = useRecoilValue(historyOfComic(comic.id!));
     const [listInteract, setListInteract] = useRecoilState(interactComicsState);
-
     const router = useRouter();
     const { user } = useAuth();
 
@@ -178,7 +178,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                                 <Link
                                     key={chapter.idChapter}
                                     href={{
-                                        pathname: "/titles/[titleId]/views/[chapter]",
+                                        pathname: "/title/[titleId]/view/[chapter]",
                                         query: {
                                             titleId: comicState.id,
                                             chapter: chapter.idChapter,
@@ -210,22 +210,26 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                     <div className=" flex w-content flex-wrap  md:w-8/12 text-lg dark:text-dark-text-color">
                         {comicState.listChapter.length > 0 && (
                             <>
-                                {/* {interactUser?.lastChapter ? (
-                                    <Link href={``}>
+                                {historyComic ? (
+                                    <Link
+                                        href={`/title/${historyComic.comic.idComic}/view/${historyComic.comic.idChapter}`}
+                                    >
                                         <a className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
-                                            Đọc tiếp chap {interactUser.lastChapter}
+                                            Đọc tiếp chap {historyComic.comic.nameChapter}
                                         </a>
                                     </Link>
                                 ) : (
-                                    <Link href={`/titles/${comicState.id}/views/${comicState.listChapter[0].idChapter}`}>
+                                    <Link
+                                        href={`/titles/${comicState.id}/views/${comicState.listChapter[0].idChapter}`}
+                                    >
                                         <a className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
                                             Đọc mới nhất
                                         </a>
                                     </Link>
-                                )} */}
+                                )}
 
                                 <Link
-                                    href={`/titles/${comicState.id}/views/${
+                                    href={`/title/${comicState.id}/view/${
                                         comicState.listChapter[comicState.listChapter.length - 1].idChapter
                                     }`}
                                 >
@@ -255,6 +259,11 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="md:pl-16 2xl:pl-80">
+                <h3 className="text-color-default text-3xl">Comment</h3>
+                <SoonFeature />
             </div>
         </div>
     );

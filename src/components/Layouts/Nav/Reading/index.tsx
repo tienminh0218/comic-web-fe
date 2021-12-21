@@ -50,7 +50,7 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                                 </svg>
                             </a>
                         </Link>
-                        <Link href={`/titles/${titleId}`}>
+                        <Link href={`/title/${titleId}`}>
                             <a>
                                 <p className="dark:text-[#cacaca] truncate">{comic.name.vnName}</p>
                             </a>
@@ -60,7 +60,7 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                         <div className={`${!nextAndPrev.prevId && "opacity-50 pointer-events-none"}`}>
                             <Link
                                 href={{
-                                    pathname: "/titles/[titleId]/views/[chapter]",
+                                    pathname: "/title/[titleId]/views/[chapter]",
                                     query: {
                                         titleId,
                                         chapter: nextAndPrev.prevId,
@@ -88,7 +88,7 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                         <div className={`${!nextAndPrev.nextId && "opacity-50 pointer-events-none"}`}>
                             <Link
                                 href={{
-                                    pathname: "/titles/[titleId]/views/[chapter]",
+                                    pathname: "/title/[titleId]/views/[chapter]",
                                     query: {
                                         titleId,
                                         chapter: nextAndPrev.nextId,

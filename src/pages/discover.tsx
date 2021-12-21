@@ -8,7 +8,7 @@ import { MainLayout } from "@/components/Layouts";
 import { ComicType, NextPageWithLayout } from "@/models/index";
 import { PopularDiscoverPage } from "@/components/Popular";
 import { apiClient } from "@/lib/axios";
-import ListComic from "@/components/ListComic";
+import { ListComic } from "@/components/ListComic";
 import { LoadingScroll } from "@/components/Common";
 import { genresState } from "@/app/atoms";
 import { DATE_UPLOAD, STATUS } from "@/commons/index";
@@ -63,7 +63,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
     };
 
     return (
-        <div className="px-6 mt-20 text-4xl  ">
+        <div className="px-6 mt-20 text-4xl">
             <div className=" md:pl-16 2xl:pl-80 w-full pb-16">
                 <h3 className="text-4xl font-bold dark:text-dark-text-color mb-8 ">Khám phá</h3>
                 <PopularDiscoverPage className="mb-16" comics={popular} />

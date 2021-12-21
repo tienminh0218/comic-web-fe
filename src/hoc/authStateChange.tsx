@@ -51,7 +51,5 @@ export const AuthStateChange = ({ children }: Props) => {
         };
     }, []);
 
-    console.log(test);
-
     return <>{isLoading ? <LoadingScreen /> : <>{children}</>}</>;
 };

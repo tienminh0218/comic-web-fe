@@ -3,7 +3,7 @@ import { RecoilRoot } from "recoil";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import "../styles/globals.css";
+import "../index.css";
 import { AppPropsWithLayout } from "@/models/index";
 import { Empty } from "@/components/Layouts";
 import { AuthStateChange } from "@/hoc/index";

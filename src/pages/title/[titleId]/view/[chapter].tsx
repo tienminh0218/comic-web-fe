@@ -9,8 +9,7 @@ import { useEffect } from "react";
 import { apiClient } from "@/lib/axios/index";
 import Footer from "@/components/Layouts/Footer";
 import { NavReading, NextAndPrevChap } from "@/components/Layouts/Nav";
-import { Chapter } from "@/models/chapter";
-import { ComicType } from "@/models/comic";
+import { ComicType, Chapter, NextPageWithLayout } from "@/models/index";
 import { LoadingScreen } from "@/components/Common";
 import { historyOfComic } from "@/app/selector";
 import { comicsHaveReadState } from "@/app/atoms";
@@ -27,7 +26,7 @@ interface ParamViewsPageProps extends ParsedUrlQuery {
     chapter: string;
 }
 
-export default function ViewsPage({ comic, chapter, nextAndPrev }: ViewsPageProps) {
+const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
     const router = useRouter();
     const historyComic = useRecoilValue(historyOfComic(comic.id));
     const [listHistory, setListHistory] = useRecoilState(comicsHaveReadState);
@@ -35,7 +34,7 @@ export default function ViewsPage({ comic, chapter, nextAndPrev }: ViewsPageProp
     const { user } = useAuth();
 
     const handleChangeChap = (url: string) => {
-        router.push(`/titles/${titleId}/views/${url}`);
+        router.push(`/title/${titleId}/view/${url}`);
     };
 
     if (router.isFallback) {
@@ -102,7 +101,10 @@ export default function ViewsPage({ comic, chapter, nextAndPrev }: ViewsPageProp
             <Footer />
         </>
     );
-}
+};
+
+export default ViewsPage;
+
 export const getStaticPaths: GetStaticPaths = async () => {
     const comics = await apiClient.getTitles();
     //filter comic has chapter. Flat return all sub-array elements

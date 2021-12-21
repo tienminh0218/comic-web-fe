@@ -1,5 +1,5 @@
 export const colorRating = (index: number): string => {
-    switch (index) {
+    switch (index + 1) {
         case 1:
             return "bg-gradient-to-r from-[#ffd749] to-[#FF7A00]";
         case 2:
