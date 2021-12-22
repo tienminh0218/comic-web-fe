@@ -9,8 +9,8 @@ import { useEffect } from "react";
 import { apiClient } from "@/lib/axios/index";
 import Footer from "@/components/Layouts/Footer";
 import { NavReading, NextAndPrevChap } from "@/components/Layouts/Nav";
-import { ComicType, Chapter, NextPageWithLayout } from "@/models/index";
-import { LoadingScreen } from "@/components/Common";
+import { ComicType, Chapter } from "@/models/index";
+import { LoadingScreen, SoonFeature } from "@/components/Common";
 import { historyOfComic } from "@/app/selector";
 import { comicsHaveReadState } from "@/app/atoms";
 import { firestore } from "@/lib/firebase/service";
@@ -96,6 +96,11 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
                         src={image.url}
                     />
                 ))}
+            </div>
+
+            <div className="w-3/5 mx-auto">
+                <h3 className="text-color-default text-3xl">Comments</h3>
+                <SoonFeature />
             </div>
 
             <Footer />

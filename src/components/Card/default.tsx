@@ -31,7 +31,7 @@ export const Card = ({ isLastUpdate, comic }: Props) => {
             </div>
             <div>
                 <h3 className="truncate font-bold mt-3 text-lg dark:text-white">{comic.name.vnName}</h3>
-                <div className="mt-2 text-sm text-[#6D6D6D] flex justify-between">
+                <div className="mt-2 text-xs sm:text-sm text-[#6D6D6D] flex justify-between">
                     {comic.listChapter.length > 0 ? (
                         <Link
                             href={`/title/${comic.id}/view/${
@@ -43,7 +43,7 @@ export const Card = ({ isLastUpdate, comic }: Props) => {
                             </a>
                         </Link>
                     ) : (
-                        "No Chap"
+                        "No chap"
                     )}
                     <span>{fromNowDate(comic.updatedAt)}</span>
                 </div>

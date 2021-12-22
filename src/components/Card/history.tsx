@@ -25,7 +25,7 @@ export const CardHistory = ({ comic }: Props) => {
             </div>
             <div>
                 <h3 className="truncate font-bold mt-3 text-lg dark:text-white">{comic.nameComic}</h3>
-                <div className="mt-2 text-sm text-[#6D6D6D] flex justify-between">
+                <div className="mt-2 text-xs sm:text-sm text-[#6D6D6D] flex justify-between">
                     <Link href={`/title/${comic.idComic}/view/${comic.idChapter}`}>
                         <a className="sub-color-hover">
                             <span>Chap {comic.nameChapter}</span>

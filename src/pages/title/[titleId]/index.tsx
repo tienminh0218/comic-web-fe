@@ -262,7 +262,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
             </div>
 
             <div className="md:pl-16 2xl:pl-80">
-                <h3 className="text-color-default text-3xl">Comment</h3>
+                <h3 className="text-color-default text-3xl">Comments</h3>
                 <SoonFeature />
             </div>
         </div>

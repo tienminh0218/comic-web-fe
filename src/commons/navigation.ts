@@ -16,7 +16,7 @@ export const navigations: NavigationType[] = [
 
     {
         name: "Theo dõi",
-        path: "/bookmark",
+        path: "/user/bookmark",
         icon: BsBookmarkCheck,
         isOnNavMenu: true,
         isOnDrop: true,
@@ -26,7 +26,7 @@ export const navigations: NavigationType[] = [
         path: "/history",
         icon: RiHistoryLine,
         isOnNavMenu: true,
-        isOnDrop: true,
+        isOnHeader: true,
     },
     {
         name: "Khám phá",
@@ -41,10 +41,5 @@ export const navigations: NavigationType[] = [
         icon: AiOutlineUser,
         isOnDrop: true,
         isOnNavMenu: true,
-    },
-    {
-        name: "Top",
-        path: "/top",
-        isOnHeader: true,
     },
 ];
