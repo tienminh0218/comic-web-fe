@@ -192,7 +192,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                                             </span>
                                             <div className="flex justify-between w-1/2 space-x-2">
                                                 <span className="">{chapter.createdAt}</span>
-                                                <span className="">~8 tỷ</span>
+                                                <span className="">{chapter.views} </span>
                                             </div>
                                         </div>
                                     </a>
@@ -262,7 +262,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
             </div>
 
             <div className="md:pl-16 2xl:pl-80">
-                <h3 className="text-color-default text-3xl">Comments</h3>
+                <h3 className="text-color-default font-medium text-3xl">Comments</h3>
                 <SoonFeature />
             </div>
         </div>

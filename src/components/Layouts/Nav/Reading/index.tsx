@@ -60,7 +60,7 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                         <div className={`${!nextAndPrev.prevId && "opacity-50 pointer-events-none"}`}>
                             <Link
                                 href={{
-                                    pathname: "/title/[titleId]/views/[chapter]",
+                                    pathname: "/title/[titleId]/view/[chapter]",
                                     query: {
                                         titleId,
                                         chapter: nextAndPrev.prevId,
@@ -88,7 +88,7 @@ export const NavReading = ({ className, comic, idCurrentChapter, nextAndPrev, on
                         <div className={`${!nextAndPrev.nextId && "opacity-50 pointer-events-none"}`}>
                             <Link
                                 href={{
-                                    pathname: "/title/[titleId]/views/[chapter]",
+                                    pathname: "/title/[titleId]/view/[chapter]",
                                     query: {
                                         titleId,
                                         chapter: nextAndPrev.nextId,

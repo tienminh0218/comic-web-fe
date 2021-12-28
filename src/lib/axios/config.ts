@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const { COMIC_API_URL } = process.env;
+
 const axiosClient = axios.create({
-    baseURL: process.env.COMIC_API_URL || "http://localhost:5000/api",
+    baseURL: COMIC_API_URL,
     timeout: 5000,
 });
 

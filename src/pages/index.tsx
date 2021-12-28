@@ -33,6 +33,12 @@ const Home: NextPageWithLayout<HomePageProps> = ({ recommend, popular, lastUpdat
     );
 };
 
+const { COMIC_API_URL } = process.env;
+const config = {
+    serverURL: COMIC_API_URL,
+};
+console.log(config.serverURL);
+
 Home.Layout = MainLayout;
 
 export default Home;

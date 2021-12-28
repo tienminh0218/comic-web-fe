@@ -5,6 +5,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
+import { increment } from "firebase/firestore";
 
 import { apiClient } from "@/lib/axios/index";
 import Footer from "@/components/Layouts/Footer";
@@ -72,6 +73,14 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
                 firestore.updateDb("users", user.id, {
                     "histories.viewed": newList,
                 });
+
+            const index = comic.listChapter.findIndex((chap) => chap.idChapter === chapter.id);
+            const listChapClone = [...comic.listChapter];
+            listChapClone[index].views += 1;
+            firestore.updateDb("comics", comic.id!, {
+                listChapter: listChapClone,
+                "interacts.views": increment(1),
+            });
         };
         const timeout = setTimeout(addToHisory, 3000);
         return () => clearTimeout(timeout);
@@ -99,7 +108,7 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
             </div>
 
             <div className="w-3/5 mx-auto">
-                <h3 className="text-color-default text-3xl">Comments</h3>
+                <h3 className="text-color-default font-medium text-3xl">Comments</h3>
                 <SoonFeature />
             </div>
 
