@@ -187,7 +187,12 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                                 >
                                     <a>
                                         <div className="flex justify-between pr-4 py-2 border-b border-[#d8dee4] dark:border-[#30363d] text-sm font-normal text-gray-500  dark:text-dark-text-color">
-                                            <span className="min-w-[9rem] w-1/2  truncate hover:text-black dark:hover:text-pink-500 hover:font-semibold cursor-pointer ml-4">
+                                            <span
+                                                className={`${
+                                                    historyComic?.comic.listChap.includes(chapter.idChapter) &&
+                                                    "sub-color"
+                                                } hover:text-black dark:hover:text-pink-500 hover:font-semibold min-w-[9rem] w-1/2  truncate  cursor-pointer ml-4`}
+                                            >
                                                 Chương {chapter.name}
                                             </span>
                                             <div className="flex justify-between w-1/2 space-x-2">

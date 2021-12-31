@@ -55,6 +55,7 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
                     ...historyComic.comic,
                     idChapter: chapter.id!,
                     nameChapter: chapter.nameChapter,
+                    listChap: [...historyComic.comic.listChap, chapter.id!],
                     updatedAt: new Date().toUTCString(),
                 });
             } else {
@@ -63,6 +64,7 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
                     nameComic: comic.name.vnName,
                     imageURL: comic.images?.thumbnail.url!,
                     idChapter: chapter.id!,
+                    listChap: [chapter.id!],
                     nameChapter: chapter.nameChapter,
                     createdAt: new Date().toUTCString(),
                     updatedAt: new Date().toUTCString(),

@@ -12,12 +12,13 @@ interface InfoUser {
 
 export interface HistoryViewed {
     idComic?: string;
-    createdAt?: Timestamp | Date | any;
-    updatedAt?: Timestamp | Date | any;
+    createdAt?: string;
+    updatedAt?: string;
     nameChapter: string;
     idChapter: string;
     imageURL: string;
     nameComic: string;
+    listChap: string[];
 }
 
 export interface ComicWasInteracted {

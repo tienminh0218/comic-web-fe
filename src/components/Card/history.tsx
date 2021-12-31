@@ -38,7 +38,7 @@ export const CardHistory = ({ comic }: Props) => {
                             <span>Chap {comic.nameChapter}</span>
                         </a>
                     </Link>
-                    <span>{fromNowDate(comic.updatedAt)}</span>
+                    <span>{fromNowDate(comic.updatedAt!)}</span>
                 </div>
             </div>
         </div>
