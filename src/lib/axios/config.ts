@@ -1,10 +1,7 @@
 import axios from "axios";
 
-const { COMIC_API_URL } = process.env;
-
 const axiosClient = axios.create({
-    baseURL: COMIC_API_URL || "http://localhost:5000/api",
-    timeout: 5000,
+    baseURL: process.env.NEXT_PUBLIC_COMIC_API_URL,
 });
 
 axiosClient.interceptors.response.use(

@@ -39,7 +39,7 @@ export const navigations: NavigationType[] = [
         name: "Cá nhân",
         path: "/profile",
         icon: AiOutlineUser,
-        isOnDrop: true,
-        isOnNavMenu: true,
+        // isOnDrop: true,
+        // isOnNavMenu: true,
     },
 ];

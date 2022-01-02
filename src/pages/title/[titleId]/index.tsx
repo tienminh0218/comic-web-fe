@@ -114,11 +114,11 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                             height={90}
                             toggle={({ isOpen }) =>
                                 isOpen ? (
-                                    <p className="text-lg mb-5 font-semibold underline dark:text-dark-text-color transition-all">
+                                    <p className="text-lg font-semibold underline dark:text-dark-text-color transition-all">
                                         Rút gọn
                                     </p>
                                 ) : (
-                                    <p className="text-lg mb-5 font-semibold underline dark:text-dark-text-color transition-all">
+                                    <p className="text-lg font-semibold underline dark:text-dark-text-color transition-all">
                                         Xem thêm
                                     </p>
                                 )
@@ -130,7 +130,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                             </p>
                         </AnimatedShowMore>
                     </div>
-                    <div className="h-auto flex flex-col w-full bg-dark-text-color p-8 gap-4 rounded-lg dark:bg-[#1A1A1A] dark:text-[#c9d1d9] transition-all 2xl:mb-8 ">
+                    <div className="mt-5 h-auto flex flex-col w-full bg-dark-text-color p-8 gap-4 rounded-lg dark:bg-[#1A1A1A] dark:text-[#c9d1d9] transition-all 2xl:mb-8 ">
                         <div className="flex flex-col gap-2 md:flex-row">
                             <p className="font-bold text-base ">Tác giả / Họa sĩ:</p>
                             <span>
