@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+import Head from "next/head";
 
 import { MainLayout } from "@/components/Layouts";
 import Slider from "@/components/Slider";
@@ -17,6 +18,10 @@ interface HomePageProps {
 const Home: NextPageWithLayout<HomePageProps> = ({ recommend, popular, lastUpdated, newSeries }) => {
     return (
         <>
+            <Head>
+                <title>Trang chủ | MangaZ</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
             <Slider comics={recommend} />
             <div className="flex flex-col items-end px-6">
                 <div className="md:pl-16 2xl:pl-80 w-full mt-14 mb-20">

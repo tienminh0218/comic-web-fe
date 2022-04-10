@@ -8,7 +8,7 @@ import { useAuth } from "@/hook/index";
 import { navigations } from "@/commons/index";
 import { Icon } from "@/components/Common";
 
-const DropDown = () => {
+export const HeaderDropDown = () => {
     const { user, signOut } = useAuth();
 
     return (
@@ -35,9 +35,15 @@ const DropDown = () => {
                     >
                         <Menu.Items className="absolute z-10 right-0 w-56 mt-2 origin-top-right bg-[#f4f4f4] dark:bg-[#1a1a1a] divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div className="py-1 select-none">
-                                <div className="cursor-pointer hover:opacity-80 select-none text-gray-500 text-sm px-5 py-2.5 border-b border-gray-300">
-                                    <p className="text-xl text-black dark:text-white truncate">{user?.email}</p>
-                                </div>
+                                <Link key={user?.email} href={"/user/profile"}>
+                                    <a>
+                                        <div className="cursor-pointer hover:opacity-80 select-none text-gray-500 text-sm px-5 py-2.5 border-b border-gray-300">
+                                            <p className="text-xl text-black dark:text-white truncate">
+                                                {user?.email}
+                                            </p>
+                                        </div>
+                                    </a>
+                                </Link>
 
                                 {navigations
                                     .filter((item) => item.isOnDrop)
@@ -85,5 +91,3 @@ const DropDown = () => {
         </div>
     );
 };
-
-export default DropDown;

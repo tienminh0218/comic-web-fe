@@ -6,6 +6,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { increment } from "firebase/firestore";
+import Head from "next/head";
 
 import { apiClient } from "@/lib/axios/index";
 import Footer from "@/components/Layouts/Footer";
@@ -87,9 +88,12 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
         const timeout = setTimeout(addToHisory, 3000);
         return () => clearTimeout(timeout);
     }, [chapter.id]);
-
     return (
         <>
+            <Head>
+                <title>{comic.name.vnName + " Chương " + chapter.nameChapter}</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
             <NavReading
                 onChangeChap={handleChangeChap}
                 nextAndPrev={nextAndPrev}

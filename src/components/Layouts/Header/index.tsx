@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { useAuth, useTheme } from "@/hook/index";
-import DropDown from "@/components/DropDown";
+import { HeaderDropDown } from "@/components/DropDown";
 import { navigations } from "@/commons/index";
 
 const Header = () => {
@@ -52,7 +52,7 @@ const Header = () => {
                         <MdOutlineLightMode className="relative cursor-pointer w-6 h-6 m-auto group-hover:fill-white dark:group-hover:fill-black" />
                     )}
                 </div>
-                {user ? <DropDown /> : <Link href="/auth">Đăng nhập</Link>}
+                {user ? <HeaderDropDown /> : <Link href="/auth">Đăng nhập</Link>}
             </div>
         </div>
     );

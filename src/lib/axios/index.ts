@@ -8,11 +8,11 @@ export const apiClient = {
     },
 
     async getTitles(): Promise<ComicType[]> {
-        return await axios.get("/titles");
+        return await axios.get("/title");
     },
 
     async getTitleById<T>(id: string | string[]): Promise<T> {
-        return await axios.get(`/titles/${id}`);
+        return await axios.get(`/title/${id}`);
     },
 
     async discover<T>(): Promise<T> {
@@ -29,10 +29,10 @@ export const apiClient = {
     },
 
     async getChapterById<T>(idTitle: string, idChap: string): Promise<T> {
-        return await axios.get(`/titles/${idTitle}/views/${idChap}`);
+        return await axios.get(`/title/${idTitle}/view/${idChap}`);
     },
 
     async getListBookmark(userId: string): Promise<ComicType[]> {
-        return await axios.get(`/users/${userId}`);
+        return await axios.get(`/user/bookmark/${userId}`);
     },
 };
