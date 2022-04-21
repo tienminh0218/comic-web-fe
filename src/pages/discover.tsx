@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { GetStaticProps } from "next";
+import { useEffect, useRef, useState } from "react";
+import { GetStaticProps, GetStaticPropsContext } from "next";
 import { useRecoilValue } from "recoil";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { toast } from "react-toastify";
@@ -28,25 +28,40 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
     const hasMore = useRef(true);
 
     const handleFilterGenres = async (slug: any) => {
-        const data = await apiClient.filter<ComicType[]>({ genres: slug });
-        if (data.length === 0) hasMore.current = false;
-        setGenre(slug);
-        setComics(data);
+        try {
+            hasMore.current = false;
+            const data = await apiClient.filter<ComicType[]>({ genres: slug });
+            setGenre(slug);
+            setComics(data);
+        } catch (error) {
+            console.log({ error });
+        }
     };
 
     const handleFilterStatus = async (status: any) => {
-        const data = await apiClient.filter<ComicType[]>({ genres: genre, status: +status });
-        setStringStatus(status);
-        setComics(data);
+        try {
+            hasMore.current = false;
+
+            const data = await apiClient.filter<ComicType[]>({ genres: genre, status: +status });
+            setStringStatus(status);
+            setComics(data);
+        } catch (error) {
+            console.log({ error });
+        }
     };
 
     const handleFilterUpload = async (upload: string) => {
-        const data = await apiClient.filter<ComicType[]>({
-            genres: genre,
-            status: +stringStatus,
-            upload: DATE_UPLOAD[upload],
-        });
-        setComics(data);
+        try {
+            hasMore.current = false;
+            const data = await apiClient.filter<ComicType[]>({
+                genres: genre,
+                status: +stringStatus,
+                upload: DATE_UPLOAD[upload],
+            });
+            setComics(data);
+        } catch (error) {
+            console.log({ error });
+        }
     };
 
     const fetchData = async () => {
@@ -75,21 +90,23 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
                         <DiscoverDropdown
                             name="Thể loại"
                             option={
-                                genres &&
-                                genres.map((genre) => (
-                                    <Menu.Item key={genre.id}>
-                                        {({ active }) => (
-                                            <button
-                                                onClick={() => handleFilterGenres(genre.slug)}
-                                                className={`${
-                                                    active ? "font-bold" : "text-gray-900"
-                                                } relative group flex rounded-md items-center w-full px-2 py-2 text-base`}
-                                            >
-                                                {genre.name}
-                                            </button>
-                                        )}
-                                    </Menu.Item>
-                                ))
+                                <>
+                                    {genres &&
+                                        genres.map((genre) => (
+                                            <Menu.Item key={genre.id}>
+                                                {({ active }) => (
+                                                    <button
+                                                        onClick={() => handleFilterGenres(genre.slug)}
+                                                        className={`${
+                                                            active ? "font-bold" : "text-gray-900"
+                                                        } relative group flex rounded-md items-center w-full px-2 py-2 text-base`}
+                                                    >
+                                                        {genre.name}
+                                                    </button>
+                                                )}
+                                            </Menu.Item>
+                                        ))}
+                                </>
                             }
                         />
                         <DiscoverDropdown

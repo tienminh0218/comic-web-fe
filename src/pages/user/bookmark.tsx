@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useEffect, useState } from "react";
 
 import { NextPageWithLayout, ComicType } from "@/models/index";
@@ -19,11 +20,17 @@ const Bookmark: NextPageWithLayout = () => {
     }, []);
 
     return (
-        <div className="px-6 mt-20 min-h-screen">
-            <div className=" md:pl-16 2xl:pl-80 w-full mb-16">
-                <ListComic title="Truyện theo dõi" comics={comics} />
+        <>
+            <Head>
+                <title>Tìm kiếm | MangaZ</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
+            <div className="px-6 mt-20 min-h-screen">
+                <div className=" md:pl-16 2xl:pl-80 w-full mb-16">
+                    <ListComic title="Truyện theo dõi" comics={comics} />
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

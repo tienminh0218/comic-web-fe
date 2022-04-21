@@ -15,6 +15,14 @@ export const apiClient = {
         return await axios.get(`/title/${id}`);
     },
 
+    async getTitleByName<T>(name: string): Promise<T> {
+        return await axios.get(`/search/title/${name}`);
+    },
+
+    async getTitleByAuthor<T>(authorName: string): Promise<T> {
+        return await axios.get(`/search/author/${authorName}`);
+    },
+
     async discover<T>(): Promise<T> {
         return await axios.get(`/discover`);
     },

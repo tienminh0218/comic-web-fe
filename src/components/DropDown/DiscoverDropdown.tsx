@@ -2,9 +2,12 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
-interface Props {}
+interface DiscoverDropdownProps {
+    name: string;
+    option: JSX.Element;
+}
 
-export const DiscoverDropdown = (props) => {
+export const DiscoverDropdown = (props: DiscoverDropdownProps) => {
     return (
         <Menu as="div" className="w-[185px] flex-center cursor-pointer mr-4 mb-2 overflow-hidden rounded-full">
             <Menu.Button className="w-full rounded-full inline-flex justify-center outline-none scrollbar bg-[#f4f4f4] dark:bg-[#1A1A1A] cursor-pointer select-none dark:text-dark-text-color py-2">

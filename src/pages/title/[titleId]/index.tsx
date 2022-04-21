@@ -140,7 +140,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                             <div className="flex flex-col gap-2 md:flex-row">
                                 <p className="font-bold text-base ">Tác giả / Họa sĩ:</p>
                                 <span>
-                                    <Link href={`https://catmanga.org/discover?authors=${comicState.author}`}>
+                                    <Link href={`/search/?author=${comicState.author}`}>
                                         <a className="text-base underline-custom hover:underline hover:cursor-pointer dark:text-[#fff]">
                                             {comicState.author}
                                         </a>
@@ -169,7 +169,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                     </div>
                 </div>
                 <div className=" flex flex-wrap-reverse pb-16 md:justify-between md:pl-16 2xl:pl-80 ">
-                    <div className="w-full justify-between shadow-base overflow-y-auto h-108 border border-[#d8dee4] dark:border-[#30363d] rounded-2xl scroll-custom ">
+                    <div className="w-full justify-between shadow-base overflow-auto scrollbar-custom  h-108 border border-[#d8dee4] dark:border-[#30363d] rounded-2xl">
                         <div className="flex justify-between py-3 pr-4 border-b border-[#d8dee4] dark:border-[#30363d]  bg-dark-text-color text-sm font-semibold dark:bg-[#1A1A1A] dark:text-[#c9d1d9] ">
                             <span className="min-w-[9rem] w-1/2 ml-4">Danh sách chương</span>
                             <div className="flex justify-between w-1/2 space-x-2">
@@ -230,7 +230,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                                         </Link>
                                     ) : (
                                         <Link
-                                            href={`/titles/${comicState.id}/views/${comicState.listChapter[0].idChapter}`}
+                                            href={`/title/${comicState.id}/view/${comicState.listChapter[0].idChapter}`}
                                         >
                                             <a className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
                                                 Đọc mới nhất

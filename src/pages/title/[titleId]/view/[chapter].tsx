@@ -77,8 +77,8 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
                     "histories.viewed": newList,
                 });
 
-            const index = comic.listChapter.findIndex((chap) => chap.idChapter === chapter.id);
             const listChapClone = [...comic.listChapter].reverse();
+            const index = listChapClone.findIndex((chap) => chap.idChapter === chapter.id);
             listChapClone[index].views += 1;
             firestore.updateDb("comics", comic.id!, {
                 listChapter: listChapClone,
