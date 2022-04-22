@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { GetStaticProps, GetStaticPropsContext } from "next";
+import { useRef, useState } from "react";
+import { GetStaticProps } from "next";
 import { useRecoilValue } from "recoil";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { toast } from "react-toastify";
@@ -80,6 +80,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
             <Head>
                 <title>Khám Phá | MangaZ</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                {/* <meta property="og:image" content="url image" /> */}
             </Head>
             <div className="px-6 mt-20 text-4xl">
                 <div className=" md:pl-16 2xl:pl-80 w-full pb-16">

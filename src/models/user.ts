@@ -1,6 +1,6 @@
-import { Timestamp, FieldValue } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 
-interface InfoUser {
+export interface InfoUser {
     firstName: string | any;
     lastName: string | any;
     dob?: string;

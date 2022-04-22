@@ -1,6 +1,8 @@
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { HiOutlineCheck, HiSelector } from "react-icons/hi";
+
+import { SEARCH_TYPE } from "@/commons/constants";
 
 interface Props {
     handleSearchOption: (e: {
@@ -8,14 +10,17 @@ interface Props {
             innerText: string;
         };
     }) => void;
-    param?: string;
+    selected: {
+        type: string;
+    };
+    setSelected: Dispatch<
+        SetStateAction<{
+            type: string;
+        }>
+    >;
 }
 
-const searchType = [{ type: "Tên truyện" }, { type: "Tên tác giả" }];
-
-export const SearchDropDown = ({ handleSearchOption, param }: Props) => {
-    const [selected, setSelected] = useState(param ? searchType[1] : searchType[0]);
-
+export const SearchDropDown = ({ handleSearchOption, selected, setSelected }: Props) => {
     return (
         <div className="max-w-72 min-w-[123px] h-full">
             <Listbox value={selected} onChange={setSelected}>
@@ -36,7 +41,7 @@ export const SearchDropDown = ({ handleSearchOption, param }: Props) => {
                             onClick={(e) => handleSearchOption(e)}
                             className="absolute w-full py-1 mt-1 overflow-auto text-base rounded-md bg-white shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                         >
-                            {searchType.map((type, typeIdx) => (
+                            {SEARCH_TYPE.map((type, typeIdx) => (
                                 <Listbox.Option
                                     className={({ active }) =>
                                         `cursor-default select-none relative py-2 pl-10 pr-4  ${

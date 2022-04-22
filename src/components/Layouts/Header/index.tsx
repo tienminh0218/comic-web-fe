@@ -44,7 +44,11 @@ const Header = () => {
                     <a>
                         <div className="relative w-max h-max group ">
                             <div className="cursor-pointer bg-transparent group-hover:bg-black dark:group-hover:bg-white absolute top-[-7px] left-[-7px] rounded-full h-10 w-10 -z-1 transition-all duration-300"></div>
-                            <RiSearchLine className="cursor-pointer w-6 h-6 m-auto group-hover:fill-white dark:group-hover:fill-black" />
+                            <RiSearchLine
+                                className={`cursor-pointer w-6 h-6 m-auto group-hover:fill-white dark:group-hover:fill-black ${
+                                    router.pathname === "/search" && "sub-color"
+                                }`}
+                            />
                         </div>
                     </a>
                 </Link>

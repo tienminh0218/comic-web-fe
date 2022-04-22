@@ -8,3 +8,5 @@ export const DATE_UPLOAD = {
     desc: 1,
     asc: 2,
 };
+
+export const SEARCH_TYPE = [{ type: "Tên truyện" }, { type: "Tên tác giả" }];

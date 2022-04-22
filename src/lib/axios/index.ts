@@ -1,4 +1,6 @@
 import queryString from "query-string";
+
+import { User } from "@/models/user";
 import { ComicType, FilterParams } from "@/models/index";
 import axios from "./config";
 
@@ -42,5 +44,9 @@ export const apiClient = {
 
     async getListBookmark(userId: string): Promise<ComicType[]> {
         return await axios.get(`/user/bookmark/${userId}`);
+    },
+
+    async getUserProfile(userId: string): Promise<User> {
+        return await axios.get(`/user/profile/${userId}`);
     },
 };

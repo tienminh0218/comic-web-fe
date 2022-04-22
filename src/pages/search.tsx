@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { AiOutlineSearch } from "react-icons/ai";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { ComicType, NextPageWithLayout } from "@/models/index";
@@ -9,6 +9,7 @@ import { ListComic, ListHistory } from "@/components/ListComic";
 import { SearchDropDown } from "@/components/DropDown/SearchDropDown";
 import { EmptyList } from "@/components/Common";
 import { apiClient } from "@/lib/axios";
+import { SEARCH_TYPE } from "@/commons/index";
 
 const Search: NextPageWithLayout = () => {
     const router = useRouter();
@@ -16,6 +17,7 @@ const Search: NextPageWithLayout = () => {
     const [comics, setComics] = useState<ComicType[]>();
     const [type, setType] = useState("Tên truyện");
     const [checkAuthor, setcheckAuthor] = useState(true);
+    const [selected, setSelected] = useState(author ? SEARCH_TYPE[1] : SEARCH_TYPE[0]);
 
     useEffect(() => {
         if (author) {
@@ -31,7 +33,6 @@ const Search: NextPageWithLayout = () => {
         }
         let data = e.target.innerText;
         setType(data);
-        console.log(type);
     };
     const handleSearchInput = async (e: any) => {
         try {
@@ -76,7 +77,11 @@ const Search: NextPageWithLayout = () => {
                                     onChange={(e) => handleSearchInput(e)}
                                     defaultValue={author}
                                 ></input>
-                                <SearchDropDown handleSearchOption={handleSearchOption} param={author as string} />
+                                <SearchDropDown
+                                    handleSearchOption={handleSearchOption}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
                             </div>
                         </div>
                         <div className="w-full pt-10">
