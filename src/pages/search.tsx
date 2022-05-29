@@ -5,20 +5,31 @@ import { useRouter } from "next/router";
 
 import { ComicType, NextPageWithLayout } from "@/models/index";
 import { MainLayout } from "@/components/Layouts";
-import { ListComic, ListHistory } from "@/components/ListComic";
+import { ListComic } from "@/components/ListComic";
 import { SearchDropDown } from "@/components/DropDown/SearchDropDown";
 import { EmptyList } from "@/components/Common";
-import { apiClient } from "@/lib/axios";
 import { SEARCH_TYPE } from "@/commons/index";
+import { useDebounce } from "@/hook/index";
+import { apiClient } from "@/lib/axios";
 
 const Search: NextPageWithLayout = () => {
     const router = useRouter();
     const { author } = router.query;
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const debouncedSearchTerm: string = useDebounce<string>(searchTerm);
     const [comics, setComics] = useState<ComicType[]>();
     const [type, setType] = useState("Tên truyện");
     const [checkAuthor, setcheckAuthor] = useState(true);
     const [selected, setSelected] = useState(author ? SEARCH_TYPE[1] : SEARCH_TYPE[0]);
 
+    useEffect(
+        () => {
+            if (debouncedSearchTerm) {
+                handleSearchInput(debouncedSearchTerm);
+            }
+        },
+        [debouncedSearchTerm] // Only call effect if debounced search term changes
+    );
     useEffect(() => {
         if (author) {
             setType("Tên tác giả");
@@ -58,6 +69,7 @@ const Search: NextPageWithLayout = () => {
             console.log({ error });
         }
     };
+
     return (
         <>
             <Head>
@@ -74,7 +86,7 @@ const Search: NextPageWithLayout = () => {
                                 <input
                                     className="focus:outline-none w-full"
                                     placeholder={`Nhập ${type} tại đây (ít nhất 3 ký tự)`}
-                                    onChange={(e) => handleSearchInput(e)}
+                                    onChange={(e: any) => setSearchTerm(e)}
                                     defaultValue={author}
                                 ></input>
                                 <SearchDropDown

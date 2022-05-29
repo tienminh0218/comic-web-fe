@@ -30,6 +30,9 @@ a {
 .btn {
     @apply shadow-md select-none transition-all duration-200 font-semibold min-w-28;
 }
+.input {
+    @apply px-3 py-2 border-2 shadow-sm block w-full rounded-md focus:outline-none focus:border-gray-500 dark:text-white dark:bg-black dark:border-gray-500 dark:focus:border-white;
+}
 
 .flex-center {
     @apply flex justify-center items-center;

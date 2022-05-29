@@ -18,7 +18,7 @@ const Bookmark: NextPageWithLayout = () => {
             setComics(comics);
         })();
     }, []);
-
+    console.log("first", comics);
     return (
         <>
             <Head>
@@ -27,7 +27,7 @@ const Bookmark: NextPageWithLayout = () => {
             </Head>
             <div className="px-6 mt-20 min-h-screen">
                 <div className=" md:pl-16 2xl:pl-80 w-full mb-16">
-                    <ListComic title="Truyện theo dõi" comics={comics} />
+                    {comics && <ListComic title="Truyện theo dõi" comics={comics} />}
                 </div>
             </div>
         </>

@@ -16,7 +16,7 @@ const Genres = ({ genres }: Props) => {
             {genres &&
                 listGenres &&
                 getGenres(listGenres, genres).map((genre) => (
-                    <Link href={`/discover/filter?genres=${genre.slug}`} key={genre.id}>
+                    <Link href={`/discover?filter=${genre.slug}`} key={genre.id}>
                         <p className="hover:bg-[#333333] hover:text-white dark:hover:bg-[#E7E7E7] dark:hover:text-black bg-[#E7E7E7] dark:bg-[#333333] cursor-pointer shadow-sm font-medium capitalize text-black py-1 rounded-full transition-all dark:text-[#F4F4F4] px-5 mr-2 mb-2">
                             {genre.name}
                         </p>

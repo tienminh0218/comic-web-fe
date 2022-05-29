@@ -17,6 +17,7 @@ import { historyOfComic } from "@/app/selector";
 import { comicsHaveReadState } from "@/app/atoms";
 import { firestore } from "@/lib/firebase/service";
 import { useAuth } from "@/hook/useAuth";
+import moment from "moment";
 
 export interface ViewsPageProps {
     comic: ComicType;
@@ -49,26 +50,36 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
     }
 
     useEffect(() => {
-        const addToHisory = () => {
-            let newList = [...listHistory];
+        (async () => {
+            await apiClient.setGenreForUser(user?.id!, comic.genres);
+        })();
+    }, [user]);
+
+    useEffect(() => {
+        const addToHistory = () => {
+            let newList: any = [...listHistory];
+            const indexHistory = listHistory.findIndex((v) => v.idComic === comic.id);
+            const currentTime = moment().valueOf();
+
             if (historyComic) {
-                newList.splice(historyComic.index, 1, {
-                    ...historyComic.comic,
+                const isNewChapterId = listHistory[indexHistory].listChap.includes(chapter.id!);
+                /// update
+                newList.splice(indexHistory, 1, {
+                    ...newList[indexHistory],
                     idChapter: chapter.id!,
-                    nameChapter: chapter.nameChapter,
-                    listChap: [...historyComic.comic.listChap, chapter.id!],
-                    updatedAt: new Date().toUTCString(),
+                    listChap: !isNewChapterId
+                        ? [...newList[indexHistory].listChap, chapter.id!]
+                        : newList[indexHistory].listChap,
+                    updatedAt: currentTime,
                 });
             } else {
+                /// add
                 newList.push({
-                    idComic: comic.id,
-                    nameComic: comic.name.vnName,
-                    imageURL: comic.images?.thumbnail.url!,
+                    idComic: comic.id!,
                     idChapter: chapter.id!,
                     listChap: [chapter.id!],
-                    nameChapter: chapter.nameChapter,
-                    createdAt: new Date().toUTCString(),
-                    updatedAt: new Date().toUTCString(),
+                    createdAt: currentTime,
+                    updatedAt: currentTime,
                 });
             }
             setListHistory(newList);
@@ -77,6 +88,7 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
                     "histories.viewed": newList,
                 });
 
+            // ADD VIEW TO COMIC
             const listChapClone = [...comic.listChapter].reverse();
             const index = listChapClone.findIndex((chap) => chap.idChapter === chapter.id);
             listChapClone[index].views += 1;
@@ -85,7 +97,7 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
                 "interacts.views": increment(1),
             });
         };
-        const timeout = setTimeout(addToHisory, 3000);
+        const timeout = setTimeout(addToHistory, 3000);
         return () => clearTimeout(timeout);
     }, [chapter.id]);
     return (

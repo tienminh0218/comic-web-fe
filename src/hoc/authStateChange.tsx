@@ -8,7 +8,8 @@ import { firestore } from "@/lib/firebase/service";
 import { useAuth } from "@/hook/useAuth";
 import { genresState, interactComicsState, comicsHaveReadState } from "@/app/atoms";
 import { GenreType } from "@/models/genre";
-import { User } from "../models";
+import { HistoryViewed, User } from "@/models/user";
+import { apiClient } from "@/lib/axios";
 
 interface Props {
     children: ReactNode;
@@ -36,11 +37,16 @@ export const AuthStateChange = ({ children }: Props) => {
             return firestore.getDocDb<User>("users", uid);
         };
 
+        const getHistory = async (id: string): Promise<HistoryViewed[]> => {
+            return await apiClient.getListHistory(id);
+        };
+
         const unSubAuth = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const u = await getUser(user.uid);
+                const history = await getHistory(user.uid);
                 setInteractState(u.histories.comicsWasInteracted);
-                setComicsHaveReadState(u.histories.viewed);
+                setComicsHaveReadState(history);
                 setUser({ id: user.uid, email: user.displayName || user.email });
             }
             setIsLoading(false);

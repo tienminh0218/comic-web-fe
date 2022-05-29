@@ -13,7 +13,13 @@ export const navigations: NavigationType[] = [
         isOnNav: true,
         isOnHeader: true,
     },
-
+    {
+        name: "Cá nhân",
+        path: "/user/profile",
+        icon: AiOutlineUser,
+        // isOnDrop: true,
+        isOnNavMenu: true,
+    },
     {
         name: "Theo dõi",
         path: "/user/bookmark",
@@ -25,8 +31,9 @@ export const navigations: NavigationType[] = [
         name: "Lịch sử",
         path: "/history",
         icon: RiHistoryLine,
+        isOnDrop: true,
         isOnNavMenu: true,
-        isOnHeader: true,
+        // isOnHeader: true,
     },
     {
         name: "Khám phá",
@@ -34,12 +41,5 @@ export const navigations: NavigationType[] = [
         icon: MdOutlineCategory,
         isOnHeader: true,
         isOnNav: true,
-    },
-    {
-        name: "Cá nhân",
-        path: "/profile",
-        icon: AiOutlineUser,
-        // isOnDrop: true,
-        // isOnNavMenu: true,
     },
 ];

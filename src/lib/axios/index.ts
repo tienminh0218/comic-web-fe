@@ -1,6 +1,6 @@
 import queryString from "query-string";
 
-import { User } from "@/models/user";
+import { HistoryViewed, updateUser, User } from "@/models/user";
 import { ComicType, FilterParams } from "@/models/index";
 import axios from "./config";
 
@@ -10,11 +10,11 @@ export const apiClient = {
     },
 
     async getTitles(): Promise<ComicType[]> {
-        return await axios.get("/title");
+        return await axios.get("/titles");
     },
 
     async getTitleById<T>(id: string | string[]): Promise<T> {
-        return await axios.get(`/title/${id}`);
+        return await axios.get(`/titles/${id}`);
     },
 
     async getTitleByName<T>(name: string): Promise<T> {
@@ -23,6 +23,10 @@ export const apiClient = {
 
     async getTitleByAuthor<T>(authorName: string): Promise<T> {
         return await axios.get(`/search/author/${authorName}`);
+    },
+
+    async getChapterById<T>(idTitle: string, idChap: string): Promise<T> {
+        return await axios.get(`/titles/${idTitle}/view/${idChap}`);
     },
 
     async discover<T>(): Promise<T> {
@@ -38,15 +42,27 @@ export const apiClient = {
         return await axios.get(`/discover/filter?${paramsString}`);
     },
 
-    async getChapterById<T>(idTitle: string, idChap: string): Promise<T> {
-        return await axios.get(`/title/${idTitle}/view/${idChap}`);
+    async getListRecommend(userId: string): Promise<ComicType[]> {
+        return await axios.get(`/users/recommend/${userId}`);
     },
 
     async getListBookmark(userId: string): Promise<ComicType[]> {
-        return await axios.get(`/user/bookmark/${userId}`);
+        return await axios.get(`/users/bookmark/${userId}`);
     },
 
     async getUserProfile(userId: string): Promise<User> {
-        return await axios.get(`/user/profile/${userId}`);
+        return await axios.get(`/users/profile/${userId}`);
+    },
+
+    async updateUserProfile(userId: string, data: updateUser): Promise<String> {
+        return await axios.put(`/users/profile/update/${userId}`, data);
+    },
+
+    async setGenreForUser(userId: string, data: string[]): Promise<String> {
+        return await axios.put(`/users/genre/${userId}`, data);
+    },
+
+    async getListHistory(userId: string): Promise<HistoryViewed[]> {
+        return axios.get(`/users/history/${userId}`);
     },
 };

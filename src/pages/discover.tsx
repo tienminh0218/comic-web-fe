@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GetStaticProps } from "next";
 import { useRecoilValue } from "recoil";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { toast } from "react-toastify";
 import Head from "next/head";
 import { Menu } from "@headlessui/react";
+import { useRouter } from "next/router";
 
 import { MainLayout } from "@/components/Layouts";
 import { ComicType, NextPageWithLayout } from "@/models/index";
@@ -21,6 +22,8 @@ export interface DiscoverProps {
     lastUpdated: ComicType[];
 }
 const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: DiscoverProps) => {
+    const router = useRouter();
+    const { filter } = router.query;
     const [comics, setComics] = useState<ComicType[]>(lastUpdated);
     const [stringStatus, setStringStatus] = useState<string>("");
     const [genre, setGenre] = useState<string>("");
@@ -41,7 +44,6 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
     const handleFilterStatus = async (status: any) => {
         try {
             hasMore.current = false;
-
             const data = await apiClient.filter<ComicType[]>({ genres: genre, status: +status });
             setStringStatus(status);
             setComics(data);
@@ -74,6 +76,16 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
             toast.info(error.message);
         }
     };
+    useEffect(() => {
+        (async () => {
+            if (filter) {
+                hasMore.current = false;
+                const data = await apiClient.filter<ComicType[]>({ genres: filter });
+                setGenre(filter as string);
+                setComics(data);
+            }
+        })();
+    }, [filter]);
 
     return (
         <>

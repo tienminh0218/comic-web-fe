@@ -17,16 +17,7 @@
         "baseUrl": ".",
         "noImplicitAny": false,
         "paths": {
-            "@/components/*": ["./src/components/*"],
-            "@/commons/*": ["./src/commons/*"],
-            "@/app/*": ["./src/app/*"],
-            "@/styles/*": ["./src/styles/*"],
-            "@/hook/*": ["src/hook/*"],
-            "@/hoc/*": ["src/hoc/*"],
-            "@/lib/*": ["./src/lib/*"],
-            "@/utils/*": ["./src/utils/*"],
-            "@/validations/*": ["./src/validations/*"],
-            "@/models/*": ["./src/models/*"]
+            "@/*": ["./src/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

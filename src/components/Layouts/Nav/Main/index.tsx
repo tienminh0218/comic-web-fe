@@ -31,15 +31,17 @@ export const NavBottom = () => {
                     )}
                 </div>
                 {/* <Link href={"item.path"}> */}
-                <div
-                    className={`${
-                        false && " text-blue-500 dark:text-pink-500 font-bold"
-                    } flex flex-col items-center gap-1 cursor-pointer`}
-                    onClick={() => toast.info("Chưa có bẹn ơi :(")}
-                >
-                    <Icon icon={RiSearchLine} />
-                    <p>Tìm kiếm</p>
-                </div>
+
+                <Link href="/search">
+                    <div
+                        className={`${
+                            false && " text-blue-500 dark:text-pink-500 font-bold"
+                        } flex flex-col items-center gap-1 cursor-pointer`}
+                    >
+                        <Icon icon={RiSearchLine} />
+                        <p>Tìm kiếm</p>
+                    </div>
+                </Link>
                 {/* </Link> */}
                 {navigations
                     .filter((nav) => nav.isOnNav)

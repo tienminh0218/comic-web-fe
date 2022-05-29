@@ -16,7 +16,7 @@ export const ListHistory = ({ className, title, comics }: Props) => {
                 className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 md:gap-y-10`}
             >
                 {comics.length !== 0 ? (
-                    comics.map((comic) => <CardHistory key={comic.idComic} comic={comic} />)
+                    comics.map((comic) => <CardHistory key={comic.idComic} HistoryViewed={comic} />)
                 ) : (
                     <EmptyList />
                 )}
