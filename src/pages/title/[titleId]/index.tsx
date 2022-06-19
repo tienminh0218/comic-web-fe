@@ -29,11 +29,18 @@ interface InteractOfUserWithComic {
 }
 
 const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
+    const router = useRouter();
+    if (!comic) {
+        router.push("/404");
+
+        return <LoadingScreen />;
+    }
     const [comicState, setComicState] = useState<ComicType>(comic);
+
+    console.log(comic);
     const { interactState, index } = useRecoilValue(interactOfComic(comic.id!));
     const historyComic = useRecoilValue(historyOfComic(comic.id!));
     const [listInteract, setListInteract] = useRecoilState(interactComicsState);
-    const router = useRouter();
     const { user } = useAuth();
 
     if (router.isFallback) {
@@ -271,10 +278,10 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                     </div>
                 </div>
 
-                <div className="md:pl-16 2xl:pl-80">
+                {/* <div className="md:pl-16 2xl:pl-80">
                     <h3 className="text-color-default font-medium text-3xl">Comments</h3>
                     <SoonFeature />
-                </div>
+                </div> */}
             </div>
         </>
     );

@@ -26,15 +26,19 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
     const { filter } = router.query;
     const [comics, setComics] = useState<ComicType[]>(lastUpdated);
     const [stringStatus, setStringStatus] = useState<string>("");
+    const [stringStatusName, setStringStatusName] = useState<string>("Trạng thái");
     const [genre, setGenre] = useState<string>("");
+    const [genreName, setGenreName] = useState<string>("Thể loại");
+    const [dateUpload, setDateUpload] = useState("Ngày cập nhật");
     const genres = useRecoilValue(genresState);
     const hasMore = useRef(true);
 
-    const handleFilterGenres = async (slug: any) => {
+    const handleFilterGenres = async (genre: any) => {
         try {
             hasMore.current = false;
-            const data = await apiClient.filter<ComicType[]>({ genres: slug });
-            setGenre(slug);
+            const data = await apiClient.filter<ComicType[]>({ genres: genre.slug });
+            setGenre(genre.slug);
+            setGenreName(genre.name);
             setComics(data);
         } catch (error) {
             console.log({ error });
@@ -46,6 +50,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
             hasMore.current = false;
             const data = await apiClient.filter<ComicType[]>({ genres: genre, status: +status });
             setStringStatus(status);
+            setStringStatusName(status === 1 ? "Đang tiến hành" : status === 2 ? "Đã hoàn thành" : "Tạm ngưng");
             setComics(data);
         } catch (error) {
             console.log({ error });
@@ -61,6 +66,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
                 upload: DATE_UPLOAD[upload],
             });
             setComics(data);
+            setDateUpload(upload === "desc" ? "Mới nhất" : "Cũ nhất");
         } catch (error) {
             console.log({ error });
         }
@@ -101,7 +107,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
 
                     <div className="flex flex-wrap justify-start w-full text-lg">
                         <DiscoverDropdown
-                            name="Thể loại"
+                            name={genreName}
                             option={
                                 <>
                                     {genres &&
@@ -109,7 +115,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
                                             <Menu.Item key={genre.id}>
                                                 {({ active }) => (
                                                     <button
-                                                        onClick={() => handleFilterGenres(genre.slug)}
+                                                        onClick={() => handleFilterGenres(genre)}
                                                         className={`${
                                                             active ? "font-bold" : "text-gray-900"
                                                         } relative group flex rounded-md items-center w-full px-2 py-2 text-base`}
@@ -123,7 +129,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
                             }
                         />
                         <DiscoverDropdown
-                            name="Trạng thái"
+                            name={stringStatusName}
                             option={
                                 <>
                                     <Menu.Item key={"Ongoing"}>
@@ -167,7 +173,7 @@ const Discover: NextPageWithLayout<DiscoverProps> = ({ popular, lastUpdated }: D
                         />
 
                         <DiscoverDropdown
-                            name="Ngày cập nhật"
+                            name={dateUpload}
                             option={
                                 <>
                                     <Menu.Item key={"New"}>

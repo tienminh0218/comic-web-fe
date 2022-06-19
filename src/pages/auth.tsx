@@ -85,17 +85,17 @@ const LoginPage = () => {
                                     onClick={() => setIsSignIn(false)}
                                     className="cursor-pointer text-black underline font-medium"
                                 >
-                                    Bấm vô ngay!!
+                                    Đăng ký ngay!!
                                 </span>
                             </span>
                         ) : (
                             <span>
-                                Có rồi mà.{" "}
+                                Đã có tài khoản?{" "}
                                 <span
                                     onClick={() => setIsSignIn(true)}
                                     className="cursor-pointer text-black underline font-medium"
                                 >
-                                    Quay lại??
+                                    Đăng nhập ngay!!
                                 </span>
                             </span>
                         )}

@@ -1,5 +1,5 @@
 NODE_ENV=production
-NEXT_PUBLIC_COMIC_API_URL=http://localhost:8088/api
+NEXT_PUBLIC_COMIC_API_URL=https://comic-be-v1.herokuapp.com/api
 NEXT_PUBLIC_TAILWIND_MODE=watch
 NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyAJ9rpC-vdFmbxbRWFBGtyaonOQwESIEFI
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=comic-c193e.firebaseapp.com

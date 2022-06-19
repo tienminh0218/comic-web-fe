@@ -10,7 +10,7 @@ import { useAuth } from "@/hook";
 import { withAuth } from "@/hoc";
 
 const History: NextPageWithLayout = () => {
-    const [comics, setComics] = useState<HistoryViewed[]>();
+    const [comics, setComics] = useState<HistoryViewed[]>([]);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const History: NextPageWithLayout = () => {
             </Head>
             <div className="px-6 mt-20 min-h-screen">
                 <div className=" md:pl-16 2xl:pl-80 w-full mb-16">
-                    {comics && <ListHistory title="Lịch sử" comics={comics as HistoryViewed[]} />}
+                    {comics.length > 0 && <ListHistory title="Lịch sử" comics={comics as HistoryViewed[]} />}
                 </div>
             </div>
         </>

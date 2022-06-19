@@ -125,10 +125,10 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
                 ))}
             </div>
 
-            <div className="w-3/5 mx-auto">
+            {/* <div className="w-3/5 mx-auto">
                 <h3 className="text-color-default font-medium text-3xl">Comments</h3>
                 <SoonFeature />
-            </div>
+            </div> */}
 
             <Footer />
         </>
