@@ -18,7 +18,6 @@ const Bookmark: NextPageWithLayout = () => {
             setComics(comics);
         })();
     }, []);
-    console.log("first", comics);
     return (
         <>
             <Head>

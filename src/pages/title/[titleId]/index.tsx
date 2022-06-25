@@ -36,8 +36,6 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
         return <LoadingScreen />;
     }
     const [comicState, setComicState] = useState<ComicType>(comic);
-
-    console.log(comic);
     const { interactState, index } = useRecoilValue(interactOfComic(comic.id!));
     const historyComic = useRecoilValue(historyOfComic(comic.id!));
     const [listInteract, setListInteract] = useRecoilState(interactComicsState);
@@ -46,7 +44,6 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
     if (router.isFallback) {
         return <LoadingScreen />;
     }
-
     const updateLikeAndBookmark = (interaction: InteractOfUserWithComic) => {
         if (interaction?.isLike || interaction?.isLike === false) {
             const updateNumLike: number = interaction.isLike
@@ -232,7 +229,7 @@ const TitlePage: NextPageWithLayout<DetailPageProps> = ({ comic }) => {
                                             href={`/title/${historyComic.comic.idComic}/view/${historyComic.comic.idChapter}`}
                                         >
                                             <a className="text-base flex-center mr-2 mb-2 px-3 py-1 rounded-md tracking-wider font-semibold border-solid border border-[#d8dee4] dark:border-[#30363d] bg-gray-200 hover:bg-transparent hover:cursor-pointer dark:bg-[#1A1A1A] dark:hover:bg-transparent transition-default ">
-                                                Đọc tiếp chương {historyComic.comic.chapter.nameChapter}
+                                                Đọc tiếp
                                             </a>
                                         </Link>
                                     ) : (

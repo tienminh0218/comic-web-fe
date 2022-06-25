@@ -51,7 +51,9 @@ const ViewsPage = ({ comic, chapter, nextAndPrev }: ViewsPageProps) => {
 
     useEffect(() => {
         (async () => {
-            await apiClient.setGenreForUser(user?.id!, comic.genres);
+            if (user) {
+                await apiClient.setGenreForUser(user?.id!, comic.genres);
+            }
         })();
     }, [user]);
 

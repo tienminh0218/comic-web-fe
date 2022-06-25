@@ -10,3 +10,6 @@ NEXT_PUBLIC_FIREBASE_APP_ID=1:119260786744:web:82d984238de51cbca1f6cd
 NEXT_PUBLIC_FIREBASE_MEASUAREMENT_ID=G-6SBL5THL9Q
 NEXT_PUBLIC_DATABASE_URL=https://comic-c193e-default-rtdb.firebaseio.com
 
+https://comic-be-v1.herokuapp.com/api
+
+http://localhost:8088/api
